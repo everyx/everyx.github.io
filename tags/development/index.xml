@@ -6,8 +6,22 @@
     <description>Recent content in Development on 过客人生</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh_CN</language>
-    <lastBuildDate>Mon, 02 May 2016 01:28:48 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 24 Jul 2016 22:47:18 +0800</lastBuildDate>
     <atom:link href="http://everyx.in/tags/development/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>迁移到 Hugo</title>
+      <link>http://everyx.in/post/change-to-hugo/</link>
+      <pubDate>Sun, 24 Jul 2016 22:47:18 +0800</pubDate>
+      
+      <guid>http://everyx.in/post/change-to-hugo/</guid>
+      <description>&lt;p&gt;好久没写博客了，笔记本系统从 Windows 10 转到 Arch Linux 之后，博客数据也没迁移过来，然后早就对 Hexo 不爽，所以这次就更新了一个心的静态站点生成器 - &lt;a href=&#34;https://github.com/spf13/hugo&#34;&gt;Hugo&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;其实静态站点生成器的功能都大同小异，让我弃用 Hexo 的主要原因是依赖太多。这其实是 Node 系的一大特针，不是说不对，但是对于静态站点生成器来说还是感觉太麻烦了一些，而我有经常 Windows, Linux 切换的人，还是喜欢构建简单的系统。而 Hugo 使用 go 编写，GitHub 上直接提供已经编译好的可执行文件，使用起来就太方便了，占用体积也很小。&lt;/p&gt;
+
+&lt;p&gt;PS：博客整好了，以后可是要抓紧写博客啦～～～&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Babun - 终于可以愉快的在 Windows 中敲命令啦</title>
@@ -387,7 +401,7 @@ JavaScript， VB Script，覆盖了 Mac 和 Windows 平台。&lt;/p&gt;
 
 &lt;p&gt;PS：台式机换乘笔记本，网页看视频啥的，各种卡啊，低配小本伤不起，万恶的 Flash。&lt;/p&gt;
 
-&lt;h2 id=&#34;调整挂载参数&#34;&gt;调整挂载参数&lt;/h2&gt;
+&lt;h3 id=&#34;调整挂载参数&#34;&gt;调整挂载参数&lt;/h3&gt;
 
 &lt;p&gt;编辑 &lt;code&gt;/etc/fstab&lt;/code&gt;，加入如下挂载参数&lt;/p&gt;
 
@@ -413,13 +427,13 @@ UUID=45943224-e329-49d7-bce7-5ddc73d1be25 swap swap defaults 0 0
 
 &lt;p&gt;以上还未开启 TRIM 功能，后面会使用 crond 每周定时 TRIM，这样比加入参数 discard 更好一些，不用每次删个文件就 TRIM 一次。&lt;/p&gt;
 
-&lt;h2 id=&#34;将日志-临时文件-网页缓存等放入内存中&#34;&gt;将日志、临时文件、网页缓存等放入内存中&lt;/h2&gt;
+&lt;h3 id=&#34;将日志-临时文件-网页缓存等放入内存中&#34;&gt;将日志、临时文件、网页缓存等放入内存中&lt;/h3&gt;
 
 &lt;p&gt;为了延长 ssd 寿命，尽量减少对 ssd 的频繁读写，就将日志，缓存，临时文件直接放到内存中。&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;注意，这一步，清先想一下是否要这么做，放到内存中重启可就没了哦。&lt;/strong&gt;&lt;/p&gt;
 
-&lt;h3 id=&#34;1-将日志和临时文件挂载到内存中&#34;&gt;1. 将日志和临时文件挂载到内存中&lt;/h3&gt;
+&lt;h4 id=&#34;1-将日志和临时文件挂载到内存中&#34;&gt;1. 将日志和临时文件挂载到内存中&lt;/h4&gt;
 
 &lt;p&gt;在 &lt;code&gt;/etc/fstab&lt;/code&gt; 文件下加入以下内容&lt;/p&gt;
 
@@ -429,7 +443,7 @@ none /var/log/ tmpfs size=10% 0 0
 none /tmp/ tmpfs size=10% 0 0
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;2-强制-firefox-使用内存作为缓存&#34;&gt;2. 强制 firefox 使用内存作为缓存&lt;/h3&gt;
+&lt;h4 id=&#34;2-强制-firefox-使用内存作为缓存&#34;&gt;2. 强制 firefox 使用内存作为缓存&lt;/h4&gt;
 
 &lt;p&gt;进入 &lt;code&gt;about:config&lt;/code&gt; (在地址栏输入回车就行了)，确认“我保证会小心”。&lt;/p&gt;
 
@@ -439,9 +453,9 @@ none /tmp/ tmpfs size=10% 0 0
 &lt;li&gt;添加 &lt;code&gt;browser.cache.memory.capacity&lt;/code&gt; 整数项，并设置值为 &lt;code&gt;-1&lt;/code&gt;。&lt;strong&gt;确保只缓存需要缓存的内容&lt;/strong&gt;。&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h2 id=&#34;使用-crond-开启定时-trim&#34;&gt;使用 crond 开启定时 TRIM&lt;/h2&gt;
+&lt;h3 id=&#34;使用-crond-开启定时-trim&#34;&gt;使用 crond 开启定时 TRIM&lt;/h3&gt;
 
-&lt;h3 id=&#34;1-新建-trim-脚本-这里文件名为-trim-sh-内容如下&#34;&gt;1. 新建 TRIM 脚本，这里文件名为 trim.sh，内容如下&lt;/h3&gt;
+&lt;h4 id=&#34;1-新建-trim-脚本-这里文件名为-trim-sh-内容如下&#34;&gt;1. 新建 TRIM 脚本，这里文件名为 trim.sh，内容如下&lt;/h4&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;#!/bin/sh
 # call fstrim to trim the specified device and write a log in user&#39; s home directory.
@@ -453,7 +467,7 @@ exec /sbin/fstrim -v / &amp;gt;&amp;gt;$LOG
 
 &lt;p&gt;&lt;strong&gt;这里的 user 修改为你的用户名，当然，如果你也可以将日志放在其他地方，请自行修改。&lt;/strong&gt;&lt;/p&gt;
 
-&lt;h3 id=&#34;2-赋予可执行权限并设置为每周执行一次&#34;&gt;2. 赋予可执行权限并设置为每周执行一次&lt;/h3&gt;
+&lt;h4 id=&#34;2-赋予可执行权限并设置为每周执行一次&#34;&gt;2. 赋予可执行权限并设置为每周执行一次&lt;/h4&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;chmod +x trim.sh
 sudo mv trim.sh /etc/cron.weekly/
@@ -467,7 +481,7 @@ sudo mv trim.sh /etc/cron.weekly/
 # systemctl start crond.service
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+&lt;h3 id=&#34;参考&#34;&gt;参考&lt;/h3&gt;
 
 &lt;ol&gt;
 &lt;li&gt;&lt;a href=&#34;https://ask.fedoraproject.org/en/question/41664/optimization-for-an-ssd/&#34;&gt;Optimization for an SSD? - Ask Fedora&lt;/a&gt;&lt;/li&gt;

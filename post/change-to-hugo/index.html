@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<title> 关于 &middot; 过客人生 </title>
+<title> 迁移到 Hugo &middot; 过客人生 </title>
 
 
 <link rel="stylesheet" href="http://everyx.in/css/slim.css">
@@ -40,24 +40,25 @@
   </div>
 </div>
     <div class="content">
-      <div class="post">
-        
-        <div class="post-content">
-          
+      <div class="posts">
+        <div class="post">
+          <h2 class="post-title"><a href="http://everyx.in/post/change-to-hugo/">迁移到 Hugo</a></h2>
+          <span class="post-date">Jul 24, 2016 </span>
+          <div class="post-content">
+            <p>好久没写博客了，笔记本系统从 Windows 10 转到 Arch Linux 之后，博客数据也没迁移过来，然后早就对 Hexo 不爽，所以这次就更新了一个心的静态站点生成器 - <a href="https://github.com/spf13/hugo">Hugo</a>。</p>
 
-<h3 id="自我介绍">自我介绍：</h3>
+<p>其实静态站点生成器的功能都大同小异，让我弃用 Hexo 的主要原因是依赖太多。这其实是 Node 系的一大特针，不是说不对，但是对于静态站点生成器来说还是感觉太麻烦了一些，而我有经常 Windows, Linux 切换的人，还是喜欢构建简单的系统。而 Hugo 使用 go 编写，GitHub 上直接提供已经编译好的可执行文件，使用起来就太方便了，占用体积也很小。</p>
 
-<p>前程序员，伪极客，喜欢折腾，人送外号「捣鼓小王子」，现在各种打杂，单身狗俱乐部长期会员</p>
+<p>PS：博客整好了，以后可是要抓紧写博客啦～～～</p>
 
-<p>如果想和我聊一聊，欢迎交流，你可以通过以下方式联系我：</p>
-
-<pre><code>Email:  lunt.luo#gmail.com
-WeChat: everyx
-</code></pre>
-
+          </div>
+        </div>
+        <div class="pagination"> 
+          <a class="btn next " href="http://everyx.in/about/"> Next</a> 
         </div>
       </div>
     </div>
+    
     <div class="footer">
   
   <p>Copyright everyx 2016. Powered by <a href='http://gohugo.io'>Hugo</a>.</p>
@@ -66,6 +67,10 @@ WeChat: everyx
 
   </div>
   <script src="http://everyx.in/js/slim.js"></script>
+  <script src="http://everyx.in/js/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
   <script>
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -76,7 +81,6 @@ ga('create', 'Your Google Analytics tracking code', 'auto');
 ga('send', 'pageview');
 
 </script>
-
 
 </body>
 

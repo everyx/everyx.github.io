@@ -24,7 +24,7 @@
   <div class="container">
     <div class="header">
   <h1 class="site-title"><a href="http://everyx.in/">过客人生</a></h1>
-  <p class="site-tagline">即使只是时间里的匆匆过客，那也是值得记录的啊！</p>
+  <p class="site-tagline">时光里的过客，人生中的回响</p>
   <div class="nav">
     <a class="nav-btn" href="#">
       <span class="ci ci-burger"></span>
@@ -51,7 +51,7 @@
 
 <p>PS：台式机换乘笔记本，网页看视频啥的，各种卡啊，低配小本伤不起，万恶的 Flash。</p>
 
-<h2 id="调整挂载参数">调整挂载参数</h2>
+<h3 id="调整挂载参数">调整挂载参数</h3>
 
 <p>编辑 <code>/etc/fstab</code>，加入如下挂载参数</p>
 
@@ -77,13 +77,13 @@ UUID=45943224-e329-49d7-bce7-5ddc73d1be25 swap swap defaults 0 0
 
 <p>以上还未开启 TRIM 功能，后面会使用 crond 每周定时 TRIM，这样比加入参数 discard 更好一些，不用每次删个文件就 TRIM 一次。</p>
 
-<h2 id="将日志-临时文件-网页缓存等放入内存中">将日志、临时文件、网页缓存等放入内存中</h2>
+<h3 id="将日志-临时文件-网页缓存等放入内存中">将日志、临时文件、网页缓存等放入内存中</h3>
 
 <p>为了延长 ssd 寿命，尽量减少对 ssd 的频繁读写，就将日志，缓存，临时文件直接放到内存中。</p>
 
 <p><strong>注意，这一步，清先想一下是否要这么做，放到内存中重启可就没了哦。</strong></p>
 
-<h3 id="1-将日志和临时文件挂载到内存中">1. 将日志和临时文件挂载到内存中</h3>
+<h4 id="1-将日志和临时文件挂载到内存中">1. 将日志和临时文件挂载到内存中</h4>
 
 <p>在 <code>/etc/fstab</code> 文件下加入以下内容</p>
 
@@ -93,7 +93,7 @@ none /var/log/ tmpfs size=10% 0 0
 none /tmp/ tmpfs size=10% 0 0
 </code></pre>
 
-<h3 id="2-强制-firefox-使用内存作为缓存">2. 强制 firefox 使用内存作为缓存</h3>
+<h4 id="2-强制-firefox-使用内存作为缓存">2. 强制 firefox 使用内存作为缓存</h4>
 
 <p>进入 <code>about:config</code> (在地址栏输入回车就行了)，确认“我保证会小心”。</p>
 
@@ -103,9 +103,9 @@ none /tmp/ tmpfs size=10% 0 0
 <li>添加 <code>browser.cache.memory.capacity</code> 整数项，并设置值为 <code>-1</code>。<strong>确保只缓存需要缓存的内容</strong>。</li>
 </ol>
 
-<h2 id="使用-crond-开启定时-trim">使用 crond 开启定时 TRIM</h2>
+<h3 id="使用-crond-开启定时-trim">使用 crond 开启定时 TRIM</h3>
 
-<h3 id="1-新建-trim-脚本-这里文件名为-trim-sh-内容如下">1. 新建 TRIM 脚本，这里文件名为 trim.sh，内容如下</h3>
+<h4 id="1-新建-trim-脚本-这里文件名为-trim-sh-内容如下">1. 新建 TRIM 脚本，这里文件名为 trim.sh，内容如下</h4>
 
 <pre><code class="language-shell">#!/bin/sh
 # call fstrim to trim the specified device and write a log in user' s home directory.
@@ -117,7 +117,7 @@ exec /sbin/fstrim -v / &gt;&gt;$LOG
 
 <p><strong>这里的 user 修改为你的用户名，当然，如果你也可以将日志放在其他地方，请自行修改。</strong></p>
 
-<h3 id="2-赋予可执行权限并设置为每周执行一次">2. 赋予可执行权限并设置为每周执行一次</h3>
+<h4 id="2-赋予可执行权限并设置为每周执行一次">2. 赋予可执行权限并设置为每周执行一次</h4>
 
 <pre><code class="language-shell">chmod +x trim.sh
 sudo mv trim.sh /etc/cron.weekly/
@@ -131,7 +131,7 @@ sudo mv trim.sh /etc/cron.weekly/
 # systemctl start crond.service
 </code></pre>
 
-<h2 id="参考">参考</h2>
+<h3 id="参考">参考</h3>
 
 <ol>
 <li><a href="https://ask.fedoraproject.org/en/question/41664/optimization-for-an-ssd/">Optimization for an SSD? - Ask Fedora</a></li>
