@@ -49,7 +49,7 @@
 
 <p>暑假了，弟弟来这里，顺便把我买的 MW4530R 从家里带过来了，花了两天时间重新刷了一下 OpenWrt 固件并设置了 Shadowsocks 的透明代理，顺便把 Chromecast 不能更新的问题解决了，这里将整个过程记录一下。</p>
 
-<h2 id="更新-openwrt-固件">更新 OpenWrt 固件</h2>
+<h3 id="更新-openwrt-固件">更新 OpenWrt 固件</h3>
 
 <p><del>以前在淘宝购买的时候就已经刷好了 OpenWrt 的固件了，固件版本比较老，会产生一系列的问题，浪费了我很多时间，所以第一步应该更新固件到 OpenWrt trunk 版本，其他版本会存在软件包过旧，造成 Shadowsocks 不能正常使用的问题。</del></p>
 
@@ -59,7 +59,7 @@
 
 <p>现在稳定版分支已经支持了，直接到 OpenWrt 官网下载稳定版就行了。由于我已经刷过 OpenWrt 了，所以选择了 <a href="http://downloads.openwrt.org/barrier_breaker/14.07/ar71xx/generic/openwrt-ar71xx-generic-mw4530r-v1-squashfs-sysupgrade.bin">sysupgrade</a> 版本，请注意选择版本。<a href="http://downloads.openwrt.org/barrier_breaker/14.07/ar71xx/generic/">Barrier Breaker 固件下载地址</a>。</p>
 
-<h2 id="安装-shadowsocks">安装 Shadowsocks</h2>
+<h3 id="安装-shadowsocks">安装 Shadowsocks</h3>
 
 <p><del>到 <a href="http://shadowsocks.org/">Shadowsocks 官网</a>下载对应平台的 ipk 软件包，我的是 <a href="http://shadowsocks.org/nightly/shadowsocks-libev-polarssl_1.4.6_ar71xx.ipk">1.4.6_ar71xx.ipk</a>。</del>现在可以直接从源中安装了</p>
 
@@ -71,7 +71,7 @@ opkg install shadowsocks-client
 
 <p>安装好了可以配置一下 Shadowsocks 配置文件，一般放在 <code>/etc/config/</code> 下。<del>注意启动时会提示 libpolarssl.so.5，这里只需要创建一个软链接就行了。</del>现在已经不需要这样做了。</p>
 
-<h2 id="安装并配置-iptable">安装并配置 iptable</h2>
+<h3 id="安装并配置-iptable">安装并配置 iptable</h3>
 
 <p>为了实现 iptables 流量转发到端口的功能，即支持 <code>--to-ports</code> 参数，需要安装 iptables-mod-nat-extra 包</p>
 
@@ -79,7 +79,7 @@ opkg install shadowsocks-client
 opke install iptables-mod-nat-extra
 </code></pre>
 
-<h3 id="使用-bestroutetb-https-github-com-ashi009-bestroutetb-配置-iptable">使用 <a href="https://github.com/ashi009/bestroutetb">bestroutetb</a> 配置 iptable</h3>
+<h4 id="使用-bestroutetb-https-github-com-ashi009-bestroutetb-配置-iptable">使用 <a href="https://github.com/ashi009/bestroutetb">bestroutetb</a> 配置 iptable</h4>
 
 <p>按照<a href="https://github.com/ashi009/bestroutetb/blob/npm/README.md">项目说明</a>安装。</p>
 
@@ -91,11 +91,11 @@ opke install iptables-mod-nat-extra
 
 <p>scp 传送到路由器中，我这里直接就用原名了，并放在 /usr/bin/ 中，即 /usr/bin/iptables.shadow</p>
 
-<h2 id="解决-dns-污染">解决 dns 污染</h2>
+<h3 id="解决-dns-污染">解决 dns 污染</h3>
 
 <p>虽然设置了白名单，让白名单内的网站都不通过代理，但是由于 dns 污染的原因，有时候根本就不能得到正确的 ip 地址，所以要解决 dns 污染的问题，这里提供三种方法。</p>
 
-<h3 id="1-配置-pdnsd-解决-dns-污染-不推荐">1. 配置 pdnsd 解决 dns 污染（不推荐）</h3>
+<h4 id="1-配置-pdnsd-解决-dns-污染-不推荐">1. 配置 pdnsd 解决 dns 污染（不推荐）</h4>
 
 <pre><code class="language-shell">opkg update
 opkg install pdnsd
@@ -109,7 +109,7 @@ opkg install pdnsd
 /etc/init.d/pdnsd start
 </code></pre>
 
-<h3 id="2-使用-shadowsocks-提供的-ss-tunnel-解决-dns-污染-不推荐">2. 使用 shadowsocks 提供的 ss-tunnel 解决 dns 污染（不推荐）</h3>
+<h4 id="2-使用-shadowsocks-提供的-ss-tunnel-解决-dns-污染-不推荐">2. 使用 shadowsocks 提供的 ss-tunnel 解决 dns 污染（不推荐）</h4>
 
 <p>关于 ss-tunnel 的 udp 转发功能具体请见<a href="http://www.v2ex.com/t/105430">shadowsocks-android 的 DNS (UDP) 转发功能 - V2EX</a>。你需要 1.4 以上的 libev 或 nodejs 实现的服务器端。如果和我一样是用的 libev 版本，那么启动时加上 -u 参数就行了。</p>
 
@@ -156,7 +156,7 @@ server=/.tinypic.com/127.0.0.1#1053
 server=/.yfrog.com/127.0.0.1#1053  
 </code></pre>
 
-<h3 id="3-推荐-使用-chinadns-解决-dns-污染">3. 「推荐」使用 ChinaDNS 解决 dns 污染</h3>
+<h4 id="3-推荐-使用-chinadns-解决-dns-污染">3. 「推荐」使用 ChinaDNS 解决 dns 污染</h4>
 
 <p>@clowwindy 的作品，无需服务器，自动优化解析效果，也是最方便的一个方法了。</p>
 
@@ -181,7 +181,7 @@ server=/.yfrog.com/127.0.0.1#1053
 /usr/bin/ss-redir -c /etc/config/shadowsocks.json &amp;   # 启动 shadowsocks
 </code></pre>
 
-<h2 id="解决-chromecast-不能更新的问题">解决 Chromecast 不能更新的问题</h2>
+<h3 id="解决-chromecast-不能更新的问题">解决 Chromecast 不能更新的问题</h3>
 
 <p>由于 Chromecast 固执的只用自家的 dns 服务，也就是 8.8.8.8 和 8.8.4.4，在国内基本上解析不到真正的 ip 了，所以这里要将所有 8.8.8.8 和 8.8.4.4 的 53 端口 的 udp 查询转到其他 dns。这里提供两种方法。</p>
 
@@ -206,7 +206,7 @@ iptables -I PREROUTING -t nat -p udp -d 8.8.8.8 --dport 53 -j REDIRECT --to-port
 
 <p>然后打开 Chromecast 就可以更新了，终于可以用 Cast Screen 了，哈哈。</p>
 
-<h2 id="参考">参考</h2>
+<h3 id="参考">参考</h3>
 
 <ol>
 <li><a href="http://hong.im/2014/03/16/configure-an-openwrt-based-router-to-use-shadowsocks-and-redirect-foreign-traffic/">配置一台基于openWRT的路由器使用shadowsocks并智能穿墙</a></li>
@@ -222,6 +222,21 @@ iptables -I PREROUTING -t nat -p udp -d 8.8.8.8 --dport 53 -j REDIRECT --to-port
         </div>
       </div>
     </div>
+    
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = "http://everyx.in/post/openwrt-proxy-config/";
+        
+      };
+      (function() {
+        var d = document, s = d.createElement('script');
+        s.src = '//everyx.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
     
     <div class="footer">
   

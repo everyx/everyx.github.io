@@ -195,7 +195,7 @@ if __name__ == &quot;__main__&quot;:
 
 <p>就能正确加载了。</p>
 
-<h2 id="总结">总结</h2>
+<h3 id="总结">总结</h3>
 
 <p>不要使用 GtkBuilder template，使用 GtkBuilder。代码的界面和逻辑分离，使用 ui 文件控制界面，可以将各个部件，如 headerbar，一些 GtkBox 中的内容合理的利用 ui 文件组织起来，在 python 代码中按照需要再组装成界面。代码结构可以参考<a href="https://github.com/GNOME/gnome-music">Gnome Music 项目</a>。</p>
 
@@ -207,6 +207,21 @@ if __name__ == &quot;__main__&quot;:
         </div>
       </div>
     </div>
+    
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = "http://everyx.in/post/pit-of-python-gtkbuilder-template/";
+        
+      };
+      (function() {
+        var d = document, s = d.createElement('script');
+        s.src = '//everyx.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
     
     <div class="footer">
   

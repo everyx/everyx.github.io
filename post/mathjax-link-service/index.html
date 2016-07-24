@@ -52,7 +52,7 @@ github 暂时不支持 MathJax，那么问题就来了，如果在 github markdo
 公式呢？当然是图片外链了。没找到对应的服务，于是自己擼了一个，希望帮助到那些和我有同样需要的
 人。</p>
 
-<h2 id="使用说明">使用说明</h2>
+<h3 id="使用说明">使用说明</h3>
 
 <p>URL 规则：<code>http://mathjax.everyx.in/[表达式类型]/[输出形式]/[表达式]</code></p>
 
@@ -86,7 +86,7 @@ github 暂时不支持 MathJax，那么问题就来了，如果在 github markdo
 <p>如果不会不懂什么 base64 编码的话，那就直接访问 <a href="http://mathjax.everyx.in/">http://mathjax.everyx.in/</a> 输入公式，选
 择对应的选项就能得到对应的 svg 的 URL 了。</p>
 
-<h2 id="实现">实现</h2>
+<h3 id="实现">实现</h3>
 
 <p>使用 Martini 框架处理 web 请求，然后直接使用 golang 的 exec 包中的功能来调用 MathJax
 for Node 提供的转换工具，并取得结果返回。
@@ -96,7 +96,7 @@ for Node 提供的转换工具，并取得结果返回。
 基于 node 的 svg2png，并修正了一个命令行工具的 bug，修改后的 Mathjax Node 见
 <a href="https://github.com/everyx/MathJax-node">https://github.com/everyx/MathJax-node</a> 。</p>
 
-<h2 id="相关资源">相关资源</h2>
+<h3 id="相关资源">相关资源</h3>
 
 <ol>
 <li><a href="https://github.com/go-martini/martini">Martini</a></li>
@@ -111,6 +111,21 @@ for Node 提供的转换工具，并取得结果返回。
         </div>
       </div>
     </div>
+    
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = "http://everyx.in/post/mathjax-link-service/";
+        
+      };
+      (function() {
+        var d = document, s = d.createElement('script');
+        s.src = '//everyx.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
     
     <div class="footer">
   

@@ -53,7 +53,7 @@ WeChat: everyx
 
 &lt;p&gt;从大二开始接触 GNU/Linux，曾有蛮长一段时间是我笔记本的唯一系统，不过现在由于工作原因，已经不用了，但是作为一个（伪 ╮(╯-╰)╭） Linuxer 的确是为找不到一个完善的 Linux Command Tool 的解决方法发愁，不过今天终于找到一个比较称心的方案啦——那就是 &lt;a href=&#34;https://github.com/babun/babun&#34;&gt;Babun&lt;/a&gt;。&lt;/p&gt;
 
-&lt;h1 id=&#34;我的需求&#34;&gt;我的需求&lt;/h1&gt;
+&lt;h3 id=&#34;我的需求&#34;&gt;我的需求&lt;/h3&gt;
 
 &lt;p&gt;其实我的需求也挺简单的，能方便的进行一些小工具的开发就行了，主要用的命令也就一下几种：&lt;/p&gt;
 
@@ -63,7 +63,7 @@ WeChat: everyx
 &lt;li&gt;SSH。管理服务器用&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h1 id=&#34;曾经用过的方案&#34;&gt;曾经用过的方案&lt;/h1&gt;
+&lt;h3 id=&#34;曾经用过的方案&#34;&gt;曾经用过的方案&lt;/h3&gt;
 
 &lt;p&gt;之前也用过很多方案，主要有以下两中：&lt;/p&gt;
 
@@ -78,7 +78,7 @@ WeChat: everyx
 
 &lt;p&gt;知道我在逛 V2EX 的时候看到有人推荐 Babun，半天试用以后，真是相见恨晚啊 o(&lt;em&gt;￣▽￣&lt;/em&gt;)ブ&lt;/p&gt;
 
-&lt;h1 id=&#34;babun&#34;&gt;Babun&lt;/h1&gt;
+&lt;h3 id=&#34;babun&#34;&gt;Babun&lt;/h3&gt;
 
 &lt;p&gt;由于使用的是 Cygwin，整体使用上比专门出的 Windows 版在一些终端模拟器 (ConEmu 等) 上出现问题的概率低多了。关于 Cygwin 项目，可以看这个问题：&lt;a href=&#34;https://www.zhihu.com/question/22137175/answer/90908473&#34;&gt;Cygwin和MinGW的区别与联系是怎样的？ - LiTuX 的回答 - 知乎&lt;/a&gt;。&lt;/p&gt;
 
@@ -91,7 +91,7 @@ WeChat: everyx
 
 &lt;p&gt;好吧，其他的特性就自己去 &lt;a href=&#34;https://github.com/babun/babun&#34;&gt;Babun 的 GitHub 主页&lt;/a&gt; 看 ReadMe 吧。&lt;/p&gt;
 
-&lt;h1 id=&#34;一些问题及解决方法&#34;&gt;一些问题及解决方法&lt;/h1&gt;
+&lt;h3 id=&#34;一些问题及解决方法&#34;&gt;一些问题及解决方法&lt;/h3&gt;
 
 &lt;ol&gt;
 &lt;li&gt;使用系统工具的时候，中文会乱码。&lt;/li&gt;
@@ -269,7 +269,7 @@ if __name__ == &amp;quot;__main__&amp;quot;:
 
 &lt;p&gt;就能正确加载了。&lt;/p&gt;
 
-&lt;h2 id=&#34;总结&#34;&gt;总结&lt;/h2&gt;
+&lt;h3 id=&#34;总结&#34;&gt;总结&lt;/h3&gt;
 
 &lt;p&gt;不要使用 GtkBuilder template，使用 GtkBuilder。代码的界面和逻辑分离，使用 ui 文件控制界面，可以将各个部件，如 headerbar，一些 GtkBox 中的内容合理的利用 ui 文件组织起来，在 python 代码中按照需要再组装成界面。代码结构可以参考&lt;a href=&#34;https://github.com/GNOME/gnome-music&#34;&gt;Gnome Music 项目&lt;/a&gt;。&lt;/p&gt;
 </description>
@@ -288,7 +288,7 @@ github 暂时不支持 MathJax，那么问题就来了，如果在 github markdo
 公式呢？当然是图片外链了。没找到对应的服务，于是自己擼了一个，希望帮助到那些和我有同样需要的
 人。&lt;/p&gt;
 
-&lt;h2 id=&#34;使用说明&#34;&gt;使用说明&lt;/h2&gt;
+&lt;h3 id=&#34;使用说明&#34;&gt;使用说明&lt;/h3&gt;
 
 &lt;p&gt;URL 规则：&lt;code&gt;http://mathjax.everyx.in/[表达式类型]/[输出形式]/[表达式]&lt;/code&gt;&lt;/p&gt;
 
@@ -322,7 +322,7 @@ github 暂时不支持 MathJax，那么问题就来了，如果在 github markdo
 &lt;p&gt;如果不会不懂什么 base64 编码的话，那就直接访问 &lt;a href=&#34;http://mathjax.everyx.in/&#34;&gt;http://mathjax.everyx.in/&lt;/a&gt; 输入公式，选
 择对应的选项就能得到对应的 svg 的 URL 了。&lt;/p&gt;
 
-&lt;h2 id=&#34;实现&#34;&gt;实现&lt;/h2&gt;
+&lt;h3 id=&#34;实现&#34;&gt;实现&lt;/h3&gt;
 
 &lt;p&gt;使用 Martini 框架处理 web 请求，然后直接使用 golang 的 exec 包中的功能来调用 MathJax
 for Node 提供的转换工具，并取得结果返回。
@@ -332,7 +332,7 @@ for Node 提供的转换工具，并取得结果返回。
 基于 node 的 svg2png，并修正了一个命令行工具的 bug，修改后的 Mathjax Node 见
 &lt;a href=&#34;https://github.com/everyx/MathJax-node&#34;&gt;https://github.com/everyx/MathJax-node&lt;/a&gt; 。&lt;/p&gt;
 
-&lt;h2 id=&#34;相关资源&#34;&gt;相关资源&lt;/h2&gt;
+&lt;h3 id=&#34;相关资源&#34;&gt;相关资源&lt;/h3&gt;
 
 &lt;ol&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/go-martini/martini&#34;&gt;Martini&lt;/a&gt;&lt;/li&gt;
@@ -353,7 +353,7 @@ for Node 提供的转换工具，并取得结果返回。
 xx 啊，不过，作为一名前程序员，能自动化的绝不手工操作，就让我发现了 Adobe Scripting 这个
 好工具，今天就来讲讲这个。&lt;/p&gt;
 
-&lt;h2 id=&#34;简介&#34;&gt;简介&lt;/h2&gt;
+&lt;h3 id=&#34;简介&#34;&gt;简介&lt;/h3&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;The Adobe Creative Cloud provides a wide range of powerful tools for your
@@ -365,7 +365,7 @@ creating integrations.&lt;/p&gt;
 &lt;p&gt;理解成自动化工具就差不多了，不仅支持 Adobe 的大量产品，还支持各种语言，包括：Apple Script，
 JavaScript， VB Script，覆盖了 Mac 和 Windows 平台。&lt;/p&gt;
 
-&lt;h2 id=&#34;需求&#34;&gt;需求&lt;/h2&gt;
+&lt;h3 id=&#34;需求&#34;&gt;需求&lt;/h3&gt;
 
 &lt;p&gt;就职公司是一家生产皮具产品的外贸公司，刚开始做电商，产品由摄影（在下兼职）拍摄，再由美工（也
 就是在下了）处理成各大平台和官网所需的规格。那么，问题来了，多个比例的图片，每个比例下可能有
@@ -380,7 +380,7 @@ JavaScript， VB Script，覆盖了 Mac 和 Windows 平台。&lt;/p&gt;
 &lt;li&gt;能够一键生成&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h2 id=&#34;学习&#34;&gt;学习&lt;/h2&gt;
+&lt;h3 id=&#34;学习&#34;&gt;学习&lt;/h3&gt;
 
 &lt;p&gt;有了上面的需求，就开始学习 Adobe Scripting 了，列举一下资源：&lt;/p&gt;
 
@@ -393,7 +393,7 @@ JavaScript， VB Script，覆盖了 Mac 和 Windows 平台。&lt;/p&gt;
 &lt;p&gt;相较于JavaScript，增加了一些内置对象，使用 ExtendScript Toolkit 提供的调式工具，尝试一
 下，很容易就能对上号了。&lt;/p&gt;
 
-&lt;h2 id=&#34;成品&#34;&gt;成品&lt;/h2&gt;
+&lt;h3 id=&#34;成品&#34;&gt;成品&lt;/h3&gt;
 
 &lt;p&gt;组后实现并达到了如下效果：&lt;/p&gt;
 
@@ -520,7 +520,7 @@ sudo mv trim.sh /etc/cron.weekly/
 
 &lt;p&gt;暑假了，弟弟来这里，顺便把我买的 MW4530R 从家里带过来了，花了两天时间重新刷了一下 OpenWrt 固件并设置了 Shadowsocks 的透明代理，顺便把 Chromecast 不能更新的问题解决了，这里将整个过程记录一下。&lt;/p&gt;
 
-&lt;h2 id=&#34;更新-openwrt-固件&#34;&gt;更新 OpenWrt 固件&lt;/h2&gt;
+&lt;h3 id=&#34;更新-openwrt-固件&#34;&gt;更新 OpenWrt 固件&lt;/h3&gt;
 
 &lt;p&gt;&lt;del&gt;以前在淘宝购买的时候就已经刷好了 OpenWrt 的固件了，固件版本比较老，会产生一系列的问题，浪费了我很多时间，所以第一步应该更新固件到 OpenWrt trunk 版本，其他版本会存在软件包过旧，造成 Shadowsocks 不能正常使用的问题。&lt;/del&gt;&lt;/p&gt;
 
@@ -530,7 +530,7 @@ sudo mv trim.sh /etc/cron.weekly/
 
 &lt;p&gt;现在稳定版分支已经支持了，直接到 OpenWrt 官网下载稳定版就行了。由于我已经刷过 OpenWrt 了，所以选择了 &lt;a href=&#34;http://downloads.openwrt.org/barrier_breaker/14.07/ar71xx/generic/openwrt-ar71xx-generic-mw4530r-v1-squashfs-sysupgrade.bin&#34;&gt;sysupgrade&lt;/a&gt; 版本，请注意选择版本。&lt;a href=&#34;http://downloads.openwrt.org/barrier_breaker/14.07/ar71xx/generic/&#34;&gt;Barrier Breaker 固件下载地址&lt;/a&gt;。&lt;/p&gt;
 
-&lt;h2 id=&#34;安装-shadowsocks&#34;&gt;安装 Shadowsocks&lt;/h2&gt;
+&lt;h3 id=&#34;安装-shadowsocks&#34;&gt;安装 Shadowsocks&lt;/h3&gt;
 
 &lt;p&gt;&lt;del&gt;到 &lt;a href=&#34;http://shadowsocks.org/&#34;&gt;Shadowsocks 官网&lt;/a&gt;下载对应平台的 ipk 软件包，我的是 &lt;a href=&#34;http://shadowsocks.org/nightly/shadowsocks-libev-polarssl_1.4.6_ar71xx.ipk&#34;&gt;1.4.6_ar71xx.ipk&lt;/a&gt;。&lt;/del&gt;现在可以直接从源中安装了&lt;/p&gt;
 
@@ -542,7 +542,7 @@ opkg install shadowsocks-client
 
 &lt;p&gt;安装好了可以配置一下 Shadowsocks 配置文件，一般放在 &lt;code&gt;/etc/config/&lt;/code&gt; 下。&lt;del&gt;注意启动时会提示 libpolarssl.so.5，这里只需要创建一个软链接就行了。&lt;/del&gt;现在已经不需要这样做了。&lt;/p&gt;
 
-&lt;h2 id=&#34;安装并配置-iptable&#34;&gt;安装并配置 iptable&lt;/h2&gt;
+&lt;h3 id=&#34;安装并配置-iptable&#34;&gt;安装并配置 iptable&lt;/h3&gt;
 
 &lt;p&gt;为了实现 iptables 流量转发到端口的功能，即支持 &lt;code&gt;--to-ports&lt;/code&gt; 参数，需要安装 iptables-mod-nat-extra 包&lt;/p&gt;
 
@@ -550,7 +550,7 @@ opkg install shadowsocks-client
 opke install iptables-mod-nat-extra
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;使用-bestroutetb-https-github-com-ashi009-bestroutetb-配置-iptable&#34;&gt;使用 &lt;a href=&#34;https://github.com/ashi009/bestroutetb&#34;&gt;bestroutetb&lt;/a&gt; 配置 iptable&lt;/h3&gt;
+&lt;h4 id=&#34;使用-bestroutetb-https-github-com-ashi009-bestroutetb-配置-iptable&#34;&gt;使用 &lt;a href=&#34;https://github.com/ashi009/bestroutetb&#34;&gt;bestroutetb&lt;/a&gt; 配置 iptable&lt;/h4&gt;
 
 &lt;p&gt;按照&lt;a href=&#34;https://github.com/ashi009/bestroutetb/blob/npm/README.md&#34;&gt;项目说明&lt;/a&gt;安装。&lt;/p&gt;
 
@@ -562,11 +562,11 @@ opke install iptables-mod-nat-extra
 
 &lt;p&gt;scp 传送到路由器中，我这里直接就用原名了，并放在 /usr/bin/ 中，即 /usr/bin/iptables.shadow&lt;/p&gt;
 
-&lt;h2 id=&#34;解决-dns-污染&#34;&gt;解决 dns 污染&lt;/h2&gt;
+&lt;h3 id=&#34;解决-dns-污染&#34;&gt;解决 dns 污染&lt;/h3&gt;
 
 &lt;p&gt;虽然设置了白名单，让白名单内的网站都不通过代理，但是由于 dns 污染的原因，有时候根本就不能得到正确的 ip 地址，所以要解决 dns 污染的问题，这里提供三种方法。&lt;/p&gt;
 
-&lt;h3 id=&#34;1-配置-pdnsd-解决-dns-污染-不推荐&#34;&gt;1. 配置 pdnsd 解决 dns 污染（不推荐）&lt;/h3&gt;
+&lt;h4 id=&#34;1-配置-pdnsd-解决-dns-污染-不推荐&#34;&gt;1. 配置 pdnsd 解决 dns 污染（不推荐）&lt;/h4&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;opkg update
 opkg install pdnsd
@@ -580,7 +580,7 @@ opkg install pdnsd
 /etc/init.d/pdnsd start
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;2-使用-shadowsocks-提供的-ss-tunnel-解决-dns-污染-不推荐&#34;&gt;2. 使用 shadowsocks 提供的 ss-tunnel 解决 dns 污染（不推荐）&lt;/h3&gt;
+&lt;h4 id=&#34;2-使用-shadowsocks-提供的-ss-tunnel-解决-dns-污染-不推荐&#34;&gt;2. 使用 shadowsocks 提供的 ss-tunnel 解决 dns 污染（不推荐）&lt;/h4&gt;
 
 &lt;p&gt;关于 ss-tunnel 的 udp 转发功能具体请见&lt;a href=&#34;http://www.v2ex.com/t/105430&#34;&gt;shadowsocks-android 的 DNS (UDP) 转发功能 - V2EX&lt;/a&gt;。你需要 1.4 以上的 libev 或 nodejs 实现的服务器端。如果和我一样是用的 libev 版本，那么启动时加上 -u 参数就行了。&lt;/p&gt;
 
@@ -627,7 +627,7 @@ server=/.tinypic.com/127.0.0.1#1053
 server=/.yfrog.com/127.0.0.1#1053  
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h3 id=&#34;3-推荐-使用-chinadns-解决-dns-污染&#34;&gt;3. 「推荐」使用 ChinaDNS 解决 dns 污染&lt;/h3&gt;
+&lt;h4 id=&#34;3-推荐-使用-chinadns-解决-dns-污染&#34;&gt;3. 「推荐」使用 ChinaDNS 解决 dns 污染&lt;/h4&gt;
 
 &lt;p&gt;@clowwindy 的作品，无需服务器，自动优化解析效果，也是最方便的一个方法了。&lt;/p&gt;
 
@@ -652,7 +652,7 @@ server=/.yfrog.com/127.0.0.1#1053
 /usr/bin/ss-redir -c /etc/config/shadowsocks.json &amp;amp;   # 启动 shadowsocks
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;解决-chromecast-不能更新的问题&#34;&gt;解决 Chromecast 不能更新的问题&lt;/h2&gt;
+&lt;h3 id=&#34;解决-chromecast-不能更新的问题&#34;&gt;解决 Chromecast 不能更新的问题&lt;/h3&gt;
 
 &lt;p&gt;由于 Chromecast 固执的只用自家的 dns 服务，也就是 8.8.8.8 和 8.8.4.4，在国内基本上解析不到真正的 ip 了，所以这里要将所有 8.8.8.8 和 8.8.4.4 的 53 端口 的 udp 查询转到其他 dns。这里提供两种方法。&lt;/p&gt;
 
@@ -677,7 +677,7 @@ iptables -I PREROUTING -t nat -p udp -d 8.8.8.8 --dport 53 -j REDIRECT --to-port
 
 &lt;p&gt;然后打开 Chromecast 就可以更新了，终于可以用 Cast Screen 了，哈哈。&lt;/p&gt;
 
-&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+&lt;h3 id=&#34;参考&#34;&gt;参考&lt;/h3&gt;
 
 &lt;ol&gt;
 &lt;li&gt;&lt;a href=&#34;http://hong.im/2014/03/16/configure-an-openwrt-based-router-to-use-shadowsocks-and-redirect-foreign-traffic/&#34;&gt;配置一台基于openWRT的路由器使用shadowsocks并智能穿墙&lt;/a&gt;&lt;/li&gt;
@@ -699,23 +699,23 @@ iptables -I PREROUTING -t nat -p udp -d 8.8.8.8 --dport 53 -j REDIRECT --to-port
 
 &lt;p&gt;自从不当程序员以后，为了努力不让自己的变成水平下降，一直坚持新技术的学习，当然其中比较感兴趣的就是 golang，虽然也觉得它的语法有时候有些别扭，比如数组以及函数参数的语法，的确不太适应类型写在变量的后面的方式，以及 &lt;code&gt;[]&lt;/code&gt; 写在类型前面的方式。&lt;/p&gt;
 
-&lt;h2 id=&#34;起因&#34;&gt;起因&lt;/h2&gt;
+&lt;h3 id=&#34;起因&#34;&gt;起因&lt;/h3&gt;
 
 &lt;p&gt;在 v2ex.com 上看到一篇关于 github 马拉松的帖子，被楼主的精神打动，我觉得也许我也可以这样尝试一下，所以就选了这样一个比较能让我坚持下去的任务 - 翻译 Go by Example.&lt;/p&gt;
 
 &lt;p&gt;大部分都是使用晚上和周末的时间，不过晚上回来做个饭，洗个澡已经比较晚了，前前后后也花了近一个月的时间才完成。&lt;/p&gt;
 
-&lt;h2 id=&#34;谈谈感想&#34;&gt;谈谈感想&lt;/h2&gt;
+&lt;h3 id=&#34;谈谈感想&#34;&gt;谈谈感想&lt;/h3&gt;
 
-&lt;h3 id=&#34;1-积极的向上有提供反馈&#34;&gt;1. 积极的向上有提供反馈&lt;/h3&gt;
+&lt;h4 id=&#34;1-积极的向上有提供反馈&#34;&gt;1. 积极的向上有提供反馈&lt;/h4&gt;
 
 &lt;p&gt;在翻译该项目的过程中，期间也碰到了一些 bug，例如生成程序对 cjk 字符的不兼容，最后提交了一个 pull request 修复了这个问题。问题及时反馈到上游，在与作者的沟通能够增加你的动力。&lt;/p&gt;
 
-&lt;h3 id=&#34;2-主动提交自己的翻译版本&#34;&gt;2. 主动提交自己的翻译版本&lt;/h3&gt;
+&lt;h4 id=&#34;2-主动提交自己的翻译版本&#34;&gt;2. 主动提交自己的翻译版本&lt;/h4&gt;
 
 &lt;p&gt;翻译完成后，其实也也挺激动的，这也是第一个我没有烂尾的 github 项目。正好作者主页上没有提供中文版的翻译，所以我主动提交了一个issue，作者也接受了我的意见，并在 README 中给出了我的翻译的链接。&lt;/p&gt;
 
-&lt;h3 id=&#34;3-翻译尽量保持和原版一直的表现形式&#34;&gt;3. 翻译尽量保持和原版一直的表现形式&lt;/h3&gt;
+&lt;h4 id=&#34;3-翻译尽量保持和原版一直的表现形式&#34;&gt;3. 翻译尽量保持和原版一直的表现形式&lt;/h4&gt;
 
 &lt;p&gt;在翻译前，我一直在找 Go by Example 的中文翻译，但是找到的都是直接以 markdown 文件的形式存在的项目，而且都不全，这也是促使我进行这项翻译工作的原因，当时的目标如下：&lt;/p&gt;
 
