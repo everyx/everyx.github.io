@@ -6,8 +6,28 @@
     <description>Recent content on 过客人生</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh_CN</language>
-    <lastBuildDate>Mon, 02 May 2016 01:28:48 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 24 Jul 2016 22:27:43 +0800</lastBuildDate>
     <atom:link href="http://everyx.in/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>关于</title>
+      <link>http://everyx.in/about/</link>
+      <pubDate>Sun, 24 Jul 2016 22:27:43 +0800</pubDate>
+      
+      <guid>http://everyx.in/about/</guid>
+      <description>
+
+&lt;h3 id=&#34;自我介绍&#34;&gt;自我介绍：&lt;/h3&gt;
+
+&lt;p&gt;前程序员，伪极客，喜欢折腾，人送外号「捣鼓小王子」，现在各种打杂，单身狗俱乐部长期会员&lt;/p&gt;
+
+&lt;p&gt;如果想和我聊一聊，欢迎交流，你可以通过以下方式联系我：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Email:  lunt.luo#gmail.com
+WeChat: everyx
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Babun - 终于可以愉快的在 Windows 中敲命令啦</title>
