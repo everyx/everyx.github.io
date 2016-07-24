@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title> Babun - 终于可以愉快的在 Windows 中敲命令啦 &middot; 过客人生 </title>
+
+
+<link rel="stylesheet" href="http://everyx.in/css/slim.css">
+<link rel="stylesheet" href="http://everyx.in/css/highlight.min.css">
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Source+Code+Pro' rel='stylesheet' type='text/css'>
+
+
+<link rel="shortcut icon" href="http://www.gravatar.com/avatar/8adb22291f3f44471cb224c22897674c?s=16.ico">
+
+
+
+<link href="" rel="alternate" type="application/rss+xml" title="过客人生" />
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+  <h1 class="site-title"><a href="http://everyx.in/">过客人生</a></h1>
+  <p class="site-tagline">即使只是时间里的匆匆过客，那也是值得记录的啊！</p>
+  <div class="nav">
+    <a class="nav-btn" href="#">
+      <span class="ci ci-burger"></span>
+    </a>
+    <ul class="nav-list">
+       
+	  <li class="spacer">&ac;</li>
+
+      <li><a href="https://github.com/everyx">Github</a></li>  
+    </ul>
+  </div>
+</div>
+    <div class="content">
+      <div class="posts">
+        <div class="post">
+          <h2 class="post-title"><a href="http://everyx.in/post/babun-happy-shell-windows/">Babun - 终于可以愉快的在 Windows 中敲命令啦</a></h2>
+          <span class="post-date">May 2, 2016 </span>
+          <div class="post-content">
+            
+
+<p>从大二开始接触 GNU/Linux，曾有蛮长一段时间是我笔记本的唯一系统，不过现在由于工作原因，已经不用了，但是作为一个（伪 ╮(╯-╰)╭） Linuxer 的确是为找不到一个完善的 Linux Command Tool 的解决方法发愁，不过今天终于找到一个比较称心的方案啦——那就是 <a href="https://github.com/babun/babun">Babun</a>。</p>
+
+<h1 id="我的需求">我的需求</h1>
+
+<p>其实我的需求也挺简单的，能方便的进行一些小工具的开发就行了，主要用的命令也就一下几种：</p>
+
+<ol>
+<li>Git。版本控制，基本的</li>
+<li>Python。偶尔要写个爬虫，或者其他小工具啥的</li>
+<li>SSH。管理服务器用</li>
+</ol>
+
+<h1 id="曾经用过的方案">曾经用过的方案</h1>
+
+<p>之前也用过很多方案，主要有以下两中：</p>
+
+<ol>
+<li>Vagrant + VirtualBox + Python for Windows</li>
+</ol>
+
+<p>虽然这样的确不用为一些兼容性烦恼了，但是这方案太重了，我就想用一个简单的工具啊，还得开虚拟机 (◎﹏◎)
+2. Git for Windows +  Cmder + Python for Windows</p>
+
+<p>这个的确是方便了，但是，为什么我 ssh 以后文字显示总是出现错位啊，vim 有时候文字索性就不出来了，这是害羞么？还有那启动和执行速度 (╯▔皿▔)╯，对不起，我想静静 (ˉ▽ˉ；)&hellip;</p>
+
+<p>知道我在逛 V2EX 的时候看到有人推荐 Babun，半天试用以后，真是相见恨晚啊 o(<em>￣▽￣</em>)ブ</p>
+
+<h1 id="babun">Babun</h1>
+
+<p>由于使用的是 Cygwin，整体使用上比专门出的 Windows 版在一些终端模拟器 (ConEmu 等) 上出现问题的概率低多了。关于 Cygwin 项目，可以看这个问题：<a href="https://www.zhihu.com/question/22137175/answer/90908473">Cygwin和MinGW的区别与联系是怎样的？ - LiTuX 的回答 - 知乎</a>。</p>
+
+<p>不要问我为甚不直接用 Cygwin，因为 Babun 提供了一下大杀器：</p>
+
+<ol>
+<li>开箱即用。ZSH（装好了 oh-my-zsh 哦）、Python、Git 等。</li>
+<li>包管理工具。简直良心，终于不用到处找了，又找到了熟悉的感觉 (ಥ _ ಥ)。</li>
+</ol>
+
+<p>好吧，其他的特性就自己去 <a href="https://github.com/babun/babun">Babun 的 GitHub 主页</a> 看 ReadMe 吧。</p>
+
+<h1 id="一些问题及解决方法">一些问题及解决方法</h1>
+
+<ol>
+<li>使用系统工具的时候，中文会乱码。</li>
+</ol>
+
+<p>由于 Local 为 UTF 编码的，然后和 Windows 的默认值不一致，好吧，这个锅我来背 இ௰இ</p>
+
+<ol>
+<li>ssh 需要通过代理连接的时候，提示 <code>command not found: connect</code></li>
+</ol>
+
+<p>使用 <code>pact</code> 安装包 <code>connect-proxy</code>，并设置 alias 到 <code>connect</code> 即可。命令如下：</p>
+
+<pre><code class="language-shell">  pact install connect-proxy    # 安装包
+  ln -s /usr/bin/connect-proxy.exe /home/[USER_NAME]/.local/bin/connect    # alias 命令
+</code></pre>
+
+<p>如果有其他问题，我再更新……</p>
+
+          </div>
+        </div>
+        <div class="pagination"> 
+          <a class="btn next " href="http://everyx.in/post/pit-of-python-gtkbuilder-template/"> Next</a> 
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+  
+  <p>Copyright everyx 2016. Powered by <a href='http://gohugo.io'>Hugo</a>.</p>
+  
+</div>
+
+  </div>
+  <script src="http://everyx.in/js/slim.js"></script>
+  <script src="http://everyx.in/js/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+  <script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'Your Google Analytics tracking code', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+</body>
+
+</html>

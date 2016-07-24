@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title> OpenWrt 透明代理配置并解决 Chromecast 的更新问题 &middot; 过客人生 </title>
+
+
+<link rel="stylesheet" href="http://everyx.in/css/slim.css">
+<link rel="stylesheet" href="http://everyx.in/css/highlight.min.css">
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Source+Code+Pro' rel='stylesheet' type='text/css'>
+
+
+<link rel="shortcut icon" href="http://www.gravatar.com/avatar/8adb22291f3f44471cb224c22897674c?s=16.ico">
+
+
+
+<link href="" rel="alternate" type="application/rss+xml" title="过客人生" />
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+  <h1 class="site-title"><a href="http://everyx.in/">过客人生</a></h1>
+  <p class="site-tagline">即使只是时间里的匆匆过客，那也是值得记录的啊！</p>
+  <div class="nav">
+    <a class="nav-btn" href="#">
+      <span class="ci ci-burger"></span>
+    </a>
+    <ul class="nav-list">
+       
+	  <li class="spacer">&ac;</li>
+
+      <li><a href="https://github.com/everyx">Github</a></li>  
+    </ul>
+  </div>
+</div>
+    <div class="content">
+      <div class="posts">
+        <div class="post">
+          <h2 class="post-title"><a href="http://everyx.in/post/openwrt-proxy-config/">OpenWrt 透明代理配置并解决 Chromecast 的更新问题</a></h2>
+          <span class="post-date">Jul 22, 2014 </span>
+          <div class="post-content">
+            
+
+<p>暑假了，弟弟来这里，顺便把我买的 MW4530R 从家里带过来了，花了两天时间重新刷了一下 OpenWrt 固件并设置了 Shadowsocks 的透明代理，顺便把 Chromecast 不能更新的问题解决了，这里将整个过程记录一下。</p>
+
+<h2 id="更新-openwrt-固件">更新 OpenWrt 固件</h2>
+
+<p><del>以前在淘宝购买的时候就已经刷好了 OpenWrt 的固件了，固件版本比较老，会产生一系列的问题，浪费了我很多时间，所以第一步应该更新固件到 OpenWrt trunk 版本，其他版本会存在软件包过旧，造成 Shadowsocks 不能正常使用的问题。</del></p>
+
+<p><del>从 <a href="http://downloads.openwrt.org/snapshots/trunk/">OpenWrt trunk 源</a>下载对应平台的固件，我的路由器是 MW4530R，是 ar71xx 平台的，并且直接通过 web 端升级，就下载了 <a href="http://downloads.openwrt.org/snapshots/trunk/ar71xx/openwrt-ar71xx-generic-mw4530r-v1-squashfs-factory.bin">openwrt-ar71xx-generic-mw4530r-v1-squashfs-factory.bin</a>。</del></p>
+
+<p><del>刷机过后 telnet 修改密码，Opkg 安装 luci 等这些就不赘述了。</del></p>
+
+<p>现在稳定版分支已经支持了，直接到 OpenWrt 官网下载稳定版就行了。由于我已经刷过 OpenWrt 了，所以选择了 <a href="http://downloads.openwrt.org/barrier_breaker/14.07/ar71xx/generic/openwrt-ar71xx-generic-mw4530r-v1-squashfs-sysupgrade.bin">sysupgrade</a> 版本，请注意选择版本。<a href="http://downloads.openwrt.org/barrier_breaker/14.07/ar71xx/generic/">Barrier Breaker 固件下载地址</a>。</p>
+
+<h2 id="安装-shadowsocks">安装 Shadowsocks</h2>
+
+<p><del>到 <a href="http://shadowsocks.org/">Shadowsocks 官网</a>下载对应平台的 ipk 软件包，我的是 <a href="http://shadowsocks.org/nightly/shadowsocks-libev-polarssl_1.4.6_ar71xx.ipk">1.4.6_ar71xx.ipk</a>。</del>现在可以直接从源中安装了</p>
+
+<pre><code class="language-shell">opkg update
+opkg install shadowsocks-client
+</code></pre>
+
+<p>会自动安装依赖软件包。如果你和我一样不幸的 <code>downloads.openwrt.org</code> 被墙了，由于 <code>opkg</code> 使用的是 <code>wget</code> 来进行下载的，可以在本机用 goagent 设置好 http 代理，并在路由器上配置 <code>http_proxy</code> 环境变量来设置全局代理，记得把 <code>HTTP_PROXY</code> 和 <code>http_proxy</code> 都设置好。</p>
+
+<p>安装好了可以配置一下 Shadowsocks 配置文件，一般放在 <code>/etc/config/</code> 下。<del>注意启动时会提示 libpolarssl.so.5，这里只需要创建一个软链接就行了。</del>现在已经不需要这样做了。</p>
+
+<h2 id="安装并配置-iptable">安装并配置 iptable</h2>
+
+<p>为了实现 iptables 流量转发到端口的功能，即支持 <code>--to-ports</code> 参数，需要安装 iptables-mod-nat-extra 包</p>
+
+<pre><code class="language-shell">opkg update
+opke install iptables-mod-nat-extra
+</code></pre>
+
+<h3 id="使用-bestroutetb-https-github-com-ashi009-bestroutetb-配置-iptable">使用 <a href="https://github.com/ashi009/bestroutetb">bestroutetb</a> 配置 iptable</h3>
+
+<p>按照<a href="https://github.com/ashi009/bestroutetb/blob/npm/README.md">项目说明</a>安装。</p>
+
+<p>那么怎么生成 iptable 的脚本呢？<del>请参照 AustinChou 的这篇 <a href="https://austinchou.com/shadowsocks-on-openwrt/">ShadowSocks on OpenWRT</a> 中提供的方法。</del>原链接已失效，<del>请直接下载<a href="https://gist.github.com/AustinChou/d0a353634332c7885287">这个脚本</a>放到刚刚 clone 的项目根目录下，然后运行脚本就行了。</del>由于 bestroutetb 变化比较大，此方法失效，我写了一个脚本，没有测试，有问题请反馈。<strong>记得替换 MY_SS-REDIR_SERVER_IP 为自己的 shadowsocks 所在的 ip 地址</strong></p>
+
+<script src="https://gist.github.com/everyx/9123cf2f4175355c90fd.js"></script>
+
+<p>生成的文件格式同 <a href="https://gist.github.com/everyx/1c27825a02236d2bc144">https://gist.github.com/everyx/1c27825a02236d2bc144</a></p>
+
+<p>scp 传送到路由器中，我这里直接就用原名了，并放在 /usr/bin/ 中，即 /usr/bin/iptables.shadow</p>
+
+<h2 id="解决-dns-污染">解决 dns 污染</h2>
+
+<p>虽然设置了白名单，让白名单内的网站都不通过代理，但是由于 dns 污染的原因，有时候根本就不能得到正确的 ip 地址，所以要解决 dns 污染的问题，这里提供三种方法。</p>
+
+<h3 id="1-配置-pdnsd-解决-dns-污染-不推荐">1. 配置 pdnsd 解决 dns 污染（不推荐）</h3>
+
+<pre><code class="language-shell">opkg update
+opkg install pdnsd
+</code></pre>
+
+<p>具体配置参见<a href="http://hong.im/2014/03/16/configure-an-openwrt-based-router-to-use-shadowsocks-and-redirect-foreign-traffic/#配置 pdnsd 对某些域名进行净化">配置一台基于openWRT的路由器使用shadowsocks并智能穿墙的 pdnsd 的配置小节</a></p>
+
+<p>启动 pdnsd 并设置开机启动</p>
+
+<pre><code class="language-shell">/etc/init.d/pdnsd enable
+/etc/init.d/pdnsd start
+</code></pre>
+
+<h3 id="2-使用-shadowsocks-提供的-ss-tunnel-解决-dns-污染-不推荐">2. 使用 shadowsocks 提供的 ss-tunnel 解决 dns 污染（不推荐）</h3>
+
+<p>关于 ss-tunnel 的 udp 转发功能具体请见<a href="http://www.v2ex.com/t/105430">shadowsocks-android 的 DNS (UDP) 转发功能 - V2EX</a>。你需要 1.4 以上的 libev 或 nodejs 实现的服务器端。如果和我一样是用的 libev 版本，那么启动时加上 -u 参数就行了。</p>
+
+<p>使用一下命令来在本地 1053 端口开启转发服务。</p>
+
+<pre><code class="language-shell">ss-tunnel -c /etc/config/rpvhost.json -l 1053 -L 8.8.8.8:53 -u
+</code></pre>
+
+<p>这样你就可以通过本地的 1053 端口实现 udp 转发了，这里将 1053 的请求都转发到 google 的 public dns。</p>
+
+<p>然后在 dnsmasq，将特定域名的解析使用本地 1053 端口来解析。这里直接在 <code>/etc/dnsmasq.conf</code> 后面加上</p>
+
+<pre><code class="language-shell">#Google and Youtube
+server=/.google.com/127.0.0.1#1053
+server=/.google.com.hk/127.0.0.1#1053
+server=/.gstatic.com/127.0.0.1#1053  
+server=/.ggpht.com/127.0.0.1#1053
+server=/.googleusercontent.com/127.0.0.1#1053
+server=/.appspot.com/127.0.0.1#1053
+server=/.googlecode.com/127.0.0.1#1053
+server=/.googleapis.com/127.0.0.1#1053
+server=/.gmail.com/127.0.0.1#1053
+server=/.google-analytics.com/127.0.0.1#1053
+server=/.youtube.com/127.0.0.1#1053
+server=/.googlevideo.com/127.0.0.1#1053
+server=/.youtube-nocookie.com/127.0.0.1#1053
+server=/.ytimg.com/127.0.0.1#1053
+server=/.blogspot.com/127.0.0.1#1053
+server=/.blogger.com/127.0.0.1#1053
+
+#FaceBook
+server=/.facebook.com/127.0.0.1#1053
+server=/.thefacebook.com/127.0.0.1#1053
+server=/.facebook.net/127.0.0.1#1053
+server=/.fbcdn.net/127.0.0.1#1053
+server=/.akamaihd.net/127.0.0.1#1053
+
+#Twitter
+server=/.twitter.com/127.0.0.1#1053
+server=/.t.co/127.0.0.1#1053
+server=/.bitly.com/127.0.0.1#1053
+server=/.twimg.com/127.0.0.1#1053
+server=/.tinypic.com/127.0.0.1#1053
+server=/.yfrog.com/127.0.0.1#1053  
+</code></pre>
+
+<h3 id="3-推荐-使用-chinadns-解决-dns-污染">3. 「推荐」使用 ChinaDNS 解决 dns 污染</h3>
+
+<p>@clowwindy 的作品，无需服务器，自动优化解析效果，也是最方便的一个方法了。</p>
+
+<p>首先来安装 <a href="https://github.com/clowwindy/ChinaDNS-C">ChinaDNS for OpenWrt</a>。点击下载<a href="https://sourceforge.net/projects/chinadns/files/dist/"> ChinaDNS for OpenWrt ar71xx</a>。</p>
+
+<pre><code class="language-shell">opkg install ChinaDNS-C_1.0.0_ar71xx.ipk  # 安装
+/etc/init.d/chinadns start                # 运行
+/etc/init.d/chinadns enable               # 开机启动
+</code></pre>
+
+<p>推荐使用 ChinaDNS 的方案来解决 dns 污染的问题，主要有以下优点：</p>
+
+<ol>
+<li>不用配置服务端。</li>
+<li>无需多余配置，运行即可使用。</li>
+<li>自动优化国内国外解析。</li>
+</ol>
+
+<h2 id="运行-iptable-设置脚本并启动-ss-redir">运行 iptable 设置脚本并启动 ss-redir</h2>
+
+<pre><code class="language-shell">/usr/bin/iptables.shadow  # 设置路由：
+/usr/bin/ss-redir -c /etc/config/shadowsocks.json &amp;   # 启动 shadowsocks
+</code></pre>
+
+<h2 id="解决-chromecast-不能更新的问题">解决 Chromecast 不能更新的问题</h2>
+
+<p>由于 Chromecast 固执的只用自家的 dns 服务，也就是 8.8.8.8 和 8.8.4.4，在国内基本上解析不到真正的 ip 了，所以这里要将所有 8.8.8.8 和 8.8.4.4 的 53 端口 的 udp 查询转到其他 dns。这里提供两种方法。</p>
+
+<h3 id="1-使用-unodns-http-www-unotelly-com-unodns-不推荐">1. 使用 <a href="http://www.unotelly.com/unodns/">UnoDNS</a>（不推荐）</h3>
+
+<p><a href="https://quickstart3.unotelly.com/global-servers">获取离你最近的服务器</a>，我这里是 176.34.53.14，然后登陆 openwrt 设置 iptable</p>
+
+<pre><code class="language-shell">iptables -I PREROUTING -t nat -p udp -d 8.8.4.4 --dport 53 -j DNAT --to-destination 176.34.53.14
+iptables -I PREROUTING -t nat -p udp -d 8.8.8.8 --dport 53 -j DNAT --to-destination 176.34.53.14
+</code></pre>
+
+<p>使用这个能够观看一些存在地区限制的视频。</p>
+
+<h3 id="2-使用本地的-dns-服务-推荐">2. 使用本地的 dns 服务（推荐）</h3>
+
+<p>由于前面已经解决了 dns 污染，所以我们可以用本地的 dns 服务就行了。</p>
+
+<pre><code class="language-shell"># 转发到本地 53 端口
+iptables -I PREROUTING -t nat -p udp -d 8.8.4.4 --dport 53 -j REDIRECT --to-ports 53
+iptables -I PREROUTING -t nat -p udp -d 8.8.8.8 --dport 53 -j REDIRECT --to-ports 53
+</code></pre>
+
+<p>然后打开 Chromecast 就可以更新了，终于可以用 Cast Screen 了，哈哈。</p>
+
+<h2 id="参考">参考</h2>
+
+<ol>
+<li><a href="http://hong.im/2014/03/16/configure-an-openwrt-based-router-to-use-shadowsocks-and-redirect-foreign-traffic/">配置一台基于openWRT的路由器使用shadowsocks并智能穿墙</a></li>
+<li><a href="https://austinchou.com/shadowsocks-on-openwrt/">ShadowSocks on OpenWRT</a></li>
+<li><a href="http://help.unotelly.com/support/articles/136538-">DD-WRT : UnoTelly Customer Service</a></li>
+</ol>
+
+          </div>
+        </div>
+        <div class="pagination">
+          <a class="btn previous " href="http://everyx.in/post/linux-ssd-tuning/"> Prev</a>  
+          <a class="btn next " href="http://everyx.in/post/translate-gobyexample-chinese/"> Next</a> 
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+  
+  <p>Copyright everyx 2016. Powered by <a href='http://gohugo.io'>Hugo</a>.</p>
+  
+</div>
+
+  </div>
+  <script src="http://everyx.in/js/slim.js"></script>
+  <script src="http://everyx.in/js/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+  <script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'Your Google Analytics tracking code', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+</body>
+
+</html>

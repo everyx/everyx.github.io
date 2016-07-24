@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title> Linux SSD 优化配置 &middot; 过客人生 </title>
+
+
+<link rel="stylesheet" href="http://everyx.in/css/slim.css">
+<link rel="stylesheet" href="http://everyx.in/css/highlight.min.css">
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Source+Code+Pro' rel='stylesheet' type='text/css'>
+
+
+<link rel="shortcut icon" href="http://www.gravatar.com/avatar/8adb22291f3f44471cb224c22897674c?s=16.ico">
+
+
+
+<link href="" rel="alternate" type="application/rss+xml" title="过客人生" />
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+  <h1 class="site-title"><a href="http://everyx.in/">过客人生</a></h1>
+  <p class="site-tagline">即使只是时间里的匆匆过客，那也是值得记录的啊！</p>
+  <div class="nav">
+    <a class="nav-btn" href="#">
+      <span class="ci ci-burger"></span>
+    </a>
+    <ul class="nav-list">
+       
+	  <li class="spacer">&ac;</li>
+
+      <li><a href="https://github.com/everyx">Github</a></li>  
+    </ul>
+  </div>
+</div>
+    <div class="content">
+      <div class="posts">
+        <div class="post">
+          <h2 class="post-title"><a href="http://everyx.in/post/linux-ssd-tuning/">Linux SSD 优化配置</a></h2>
+          <span class="post-date">Sep 14, 2014 </span>
+          <div class="post-content">
+            
+
+<p>最近入了一块 SSD，顺便把系统换成了 Fedora 20，这里整理以下 Linux 下 SSD 优化的一些相关知识。</p>
+
+<p>PS：台式机换乘笔记本，网页看视频啥的，各种卡啊，低配小本伤不起，万恶的 Flash。</p>
+
+<h2 id="调整挂载参数">调整挂载参数</h2>
+
+<p>编辑 <code>/etc/fstab</code>，加入如下挂载参数</p>
+
+<ol>
+<li>btrfs: ssd, noatime</li>
+<li>ext4: noatime</li>
+</ol>
+
+<p>至于其他的优化参数可以参考 btrfs wiki，料多了也不好，特别是硬盘上的，还是稳妥点，不要乱加了，我这就只加了 ssd，我的加完以后是这样的：</p>
+
+<pre><code class="language-shell">#
+# /etc/fstab
+# Created by anaconda on Fri Sep 12 20:48:12 2014
+#
+# Accessible filesystems, by reference, are maintained under '/dev/disk'
+# See man pages fstab(5), findfs(8), mount(8) and/or blkid(8) for more info
+#
+UUID=772eae0d-7072-4613-83f4-7dee7473e8e4 / btrfs ssd,noatime,subvol=root 0 0
+UUID=a20bebe6-9e98-4fc9-adf4-2223301a2ddc /boot ext4 noatime,defaults 1 2
+UUID=772eae0d-7072-4613-83f4-7dee7473e8e4 /home btrfs ssd,noatime,subvol=home 0 0
+UUID=45943224-e329-49d7-bce7-5ddc73d1be25 swap swap defaults 0 0
+</code></pre>
+
+<p>以上还未开启 TRIM 功能，后面会使用 crond 每周定时 TRIM，这样比加入参数 discard 更好一些，不用每次删个文件就 TRIM 一次。</p>
+
+<h2 id="将日志-临时文件-网页缓存等放入内存中">将日志、临时文件、网页缓存等放入内存中</h2>
+
+<p>为了延长 ssd 寿命，尽量减少对 ssd 的频繁读写，就将日志，缓存，临时文件直接放到内存中。</p>
+
+<p><strong>注意，这一步，清先想一下是否要这么做，放到内存中重启可就没了哦。</strong></p>
+
+<h3 id="1-将日志和临时文件挂载到内存中">1. 将日志和临时文件挂载到内存中</h3>
+
+<p>在 <code>/etc/fstab</code> 文件下加入以下内容</p>
+
+<pre><code class="language-shell">#SSD optimization, /var/log/ to RAM
+none /var/log/ tmpfs size=10% 0 0
+#SSD optimization, /tmp to RAM
+none /tmp/ tmpfs size=10% 0 0
+</code></pre>
+
+<h3 id="2-强制-firefox-使用内存作为缓存">2. 强制 firefox 使用内存作为缓存</h3>
+
+<p>进入 <code>about:config</code> (在地址栏输入回车就行了)，确认“我保证会小心”。</p>
+
+<ol>
+<li>找到 <code>browser.cache.disk.enable</code> 项，并将值设定值 <code>false</code>。<strong>这样就禁用了磁盘缓存</strong>。</li>
+<li>确认 <code>browser.cache.memory.enable</code> 项值为 <code>ture</code>。<strong>保证内存缓存是开启的</strong>。</li>
+<li>添加 <code>browser.cache.memory.capacity</code> 整数项，并设置值为 <code>-1</code>。<strong>确保只缓存需要缓存的内容</strong>。</li>
+</ol>
+
+<h2 id="使用-crond-开启定时-trim">使用 crond 开启定时 TRIM</h2>
+
+<h3 id="1-新建-trim-脚本-这里文件名为-trim-sh-内容如下">1. 新建 TRIM 脚本，这里文件名为 trim.sh，内容如下</h3>
+
+<pre><code class="language-shell">#!/bin/sh
+# call fstrim to trim the specified device and write a log in user' s home directory.
+LOG=/home/user/fstrim.log
+set -e
+echo &quot;*** $(date -R) ***&quot; &gt;&gt; $LOG
+exec /sbin/fstrim -v / &gt;&gt;$LOG
+</code></pre>
+
+<p><strong>这里的 user 修改为你的用户名，当然，如果你也可以将日志放在其他地方，请自行修改。</strong></p>
+
+<h3 id="2-赋予可执行权限并设置为每周执行一次">2. 赋予可执行权限并设置为每周执行一次</h3>
+
+<pre><code class="language-shell">chmod +x trim.sh
+sudo mv trim.sh /etc/cron.weekly/
+</code></pre>
+
+<p>要确定你的 cron 服务是开启的，在使用 systemd 的系统上使用此命令确认</p>
+
+<pre><code class="language-shell">systemctl status crond.service
+
+# 如果没有开启使用以下命令开启
+# systemctl start crond.service
+</code></pre>
+
+<h2 id="参考">参考</h2>
+
+<ol>
+<li><a href="https://ask.fedoraproject.org/en/question/41664/optimization-for-an-ssd/">Optimization for an SSD? - Ask Fedora</a></li>
+<li><a href="https://btrfs.wiki.kernel.org/index.php/Main_Page">btrfs Wiki</a></li>
+</ol>
+
+          </div>
+        </div>
+        <div class="pagination">
+          <a class="btn previous " href="http://everyx.in/post/using-adobe-scripting/"> Prev</a>  
+          <a class="btn next " href="http://everyx.in/post/openwrt-proxy-config/"> Next</a> 
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+  
+  <p>Copyright everyx 2016. Powered by <a href='http://gohugo.io'>Hugo</a>.</p>
+  
+</div>
+
+  </div>
+  <script src="http://everyx.in/js/slim.js"></script>
+  <script src="http://everyx.in/js/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+  <script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'Your Google Analytics tracking code', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+</body>
+
+</html>

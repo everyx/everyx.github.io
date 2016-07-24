@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title> Python GtkBuilder Template 的坑 &middot; 过客人生 </title>
+
+
+<link rel="stylesheet" href="http://everyx.in/css/slim.css">
+<link rel="stylesheet" href="http://everyx.in/css/highlight.min.css">
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Source+Code+Pro' rel='stylesheet' type='text/css'>
+
+
+<link rel="shortcut icon" href="http://www.gravatar.com/avatar/8adb22291f3f44471cb224c22897674c?s=16.ico">
+
+
+
+<link href="" rel="alternate" type="application/rss+xml" title="过客人生" />
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+  <h1 class="site-title"><a href="http://everyx.in/">过客人生</a></h1>
+  <p class="site-tagline">即使只是时间里的匆匆过客，那也是值得记录的啊！</p>
+  <div class="nav">
+    <a class="nav-btn" href="#">
+      <span class="ci ci-burger"></span>
+    </a>
+    <ul class="nav-list">
+       
+	  <li class="spacer">&ac;</li>
+
+      <li><a href="https://github.com/everyx">Github</a></li>  
+    </ul>
+  </div>
+</div>
+    <div class="content">
+      <div class="posts">
+        <div class="post">
+          <h2 class="post-title"><a href="http://everyx.in/post/pit-of-python-gtkbuilder-template/">Python GtkBuilder Template 的坑</a></h2>
+          <span class="post-date">Jan 29, 2015 </span>
+          <div class="post-content">
+            
+
+<p>最近在学习 PyGTK，在学习 <a href="http://zhengmingpei.github.io/GTK-3-Chinese-Reference-Manual/index.html">GTK+3 参考手册(翻译版)</a>，在学习<a href="http://zhengmingpei.github.io/GTK-3-Chinese-Reference-Manual/content/building_app/paddingwindow.html">填充窗口</a>中遇到了一个 python 绑定中 GtkBuilder template resource 的坑。</p>
+
+<p>代码文件如下：</p>
+
+<pre><code class="language-python">#!/usr/bin/env python3
+
+from gi.repository import Gtk, Gio
+import sys
+import os
+
+class AppWindow(Gtk.ApplicationWindow):
+    def __init__(self, app):
+        Gtk.ApplicationWindow.__init__(self, application=app)
+        self.set_default_size(400, 200)
+        # 首先从资源中加载 ui template 文件
+        self.set_template_from_resource('/in/everyx/doubanfmgtk/application.ui')
+        # 要记得初始化
+        self.init_template()
+
+class DoubanFMGtkApp(Gtk.Application):
+    def __init__(self):
+        Gtk.Application.__init__(self,
+                                 application_id='in.everyx.doubanfmgtk',
+                                 flags=Gio.ApplicationFlags.FLAGS_NONE)
+
+    def do_activate(self):
+        main_window = AppWindow(app=self)
+        main_window.show_all()
+
+if __name__ == &quot;__main__&quot;:
+
+    # 加在资源文件
+    resource = Gio.resource_load(os.path.abspath(os.path.join(
+        os.path.abspath(&quot;__file__&quot;),
+        &quot;../../data/doubanfm-gtk.gresource&quot;)))
+    # 注册资源文件
+    Gio.Resource._register(resource)
+
+    app = DoubanFMGtkApp()
+    exit_status = app.run(sys.argv)
+    sys.exit(exit_status)
+</code></pre>
+
+<p>运行后，问题来了，一直不能出现正确的窗口，错误提示如下：</p>
+
+<pre><code class="language-shell">(application.py:19907): Gtk-CRITICAL **: Error building template class '__main__+AppWindow' for an instance of type '__main__+AppWindow': Parsed template definition for type `AppWindow', expected type `__main__+AppWindow'.
+</code></pre>
+
+<p>再看看 <code>ui</code> 文件</p>
+
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;interface&gt;
+  &lt;!-- interface-requires gtk+ 3.8 --&gt;
+  &lt;template class=&quot;AppWindow&quot; parent=&quot;GtkApplicationWindow&quot;&gt;
+    &lt;property name=&quot;title&quot; translatable=&quot;yes&quot;&gt;Example Application&lt;/property&gt;
+    &lt;property name=&quot;default-width&quot;&gt;600&lt;/property&gt;
+    &lt;property name=&quot;default-height&quot;&gt;400&lt;/property&gt;
+    &lt;child type=&quot;titlebar&quot;&gt;
+      &lt;object class=&quot;GtkHeaderBar&quot; id=&quot;header&quot;&gt;
+        &lt;property name=&quot;visible&quot;&gt;True&lt;/property&gt;
+        &lt;child type=&quot;title&quot;&gt;
+          &lt;object class=&quot;GtkStackSwitcher&quot; id=&quot;tabs&quot;&gt;
+            &lt;property name=&quot;visible&quot;&gt;True&lt;/property&gt;
+            &lt;property name=&quot;margin&quot;&gt;6&lt;/property&gt;
+            &lt;property name=&quot;stack&quot;&gt;stack&lt;/property&gt;
+          &lt;/object&gt;
+        &lt;/child&gt;
+        &lt;child&gt;
+          &lt;object class=&quot;GtkToggleButton&quot; id=&quot;search&quot;&gt;
+            &lt;property name=&quot;visible&quot;&gt;True&lt;/property&gt;
+            &lt;property name=&quot;sensitive&quot;&gt;False&lt;/property&gt;
+            &lt;style&gt;
+              &lt;class name=&quot;image-button&quot;/&gt;
+            &lt;/style&gt;
+            &lt;child&gt;
+              &lt;object class=&quot;GtkImage&quot; id=&quot;search-icon&quot;&gt;
+                &lt;property name=&quot;visible&quot;&gt;True&lt;/property&gt;
+                &lt;property name=&quot;icon-name&quot;&gt;edit-find-symbolic&lt;/property&gt;
+                &lt;property name=&quot;icon-size&quot;&gt;1&lt;/property&gt;
+              &lt;/object&gt;
+            &lt;/child&gt;
+          &lt;/object&gt;
+          &lt;packing&gt;
+            &lt;property name=&quot;pack-type&quot;&gt;end&lt;/property&gt;
+          &lt;/packing&gt;
+        &lt;/child&gt;
+      &lt;/object&gt;
+    &lt;/child&gt;
+  &lt;/template&gt;
+&lt;/interface&gt;
+</code></pre>
+
+<p>其中第四行的 class 明明是 <code>AppWindow</code>，但是在 使用 python 绑定的时候居然要用 <code>__main__+AppWindow</code> 这么奇葩的类名，改过来就运行正常了。终于明白为什么看的 PyGTK 项目的代码中都没有用这种方法来创建窗口了，太反人类了。所以下面就用常见的 GtkBuilder 方法来使用 resource。</p>
+
+<p>上面的 ui 文件中，其实就是将 titlebar 设置为 GtkHeaderBar，改造一下 ui 文件，如下：</p>
+
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;interface&gt;
+  &lt;!-- interface-requires gtk+ 3.8 --&gt;
+  &lt;object class=&quot;GtkHeaderBar&quot; id=&quot;headerbar&quot;&gt;
+    &lt;property name=&quot;visible&quot;&gt;True&lt;/property&gt;
+    &lt;property name=&quot;show-close-button&quot;&gt;True&lt;/property&gt;
+    &lt;child type=&quot;title&quot;&gt;
+      &lt;object class=&quot;GtkStackSwitcher&quot; id=&quot;tabs&quot;&gt;
+        &lt;property name=&quot;visible&quot;&gt;True&lt;/property&gt;
+        &lt;property name=&quot;margin&quot;&gt;6&lt;/property&gt;
+        &lt;property name=&quot;stack&quot;&gt;stack&lt;/property&gt;
+      &lt;/object&gt;
+    &lt;/child&gt;
+    &lt;child&gt;
+      &lt;object class=&quot;GtkToggleButton&quot; id=&quot;search&quot;&gt;
+        &lt;property name=&quot;visible&quot;&gt;True&lt;/property&gt;
+        &lt;property name=&quot;sensitive&quot;&gt;False&lt;/property&gt;
+        &lt;style&gt;
+          &lt;class name=&quot;image-button&quot;/&gt;
+        &lt;/style&gt;
+        &lt;child&gt;
+          &lt;object class=&quot;GtkImage&quot; id=&quot;search-icon&quot;&gt;
+            &lt;property name=&quot;visible&quot;&gt;True&lt;/property&gt;
+            &lt;property name=&quot;icon-name&quot;&gt;edit-find-symbolic&lt;/property&gt;
+            &lt;property name=&quot;icon-size&quot;&gt;1&lt;/property&gt;
+          &lt;/object&gt;
+        &lt;/child&gt;
+      &lt;/object&gt;
+      &lt;packing&gt;
+        &lt;property name=&quot;pack-type&quot;&gt;end&lt;/property&gt;
+      &lt;/packing&gt;
+    &lt;/child&gt;
+  &lt;/object&gt;
+&lt;/interface&gt;
+</code></pre>
+
+<p>修改代码</p>
+
+<pre><code class="language-python3">class AppWindow(Gtk.ApplicationWindow):
+    def __init__(self, app):
+        Gtk.ApplicationWindow.__init__(self, application=app)
+        self.set_default_size(400, 200)
+
+        builder = Gtk.Builder()
+        builder.add_from_resource('/in/everyx/doubanfmgtk/headerbar.ui')
+        headerbar = builder.get_object('headerbar')
+
+        self.set_titlebar(headerbar)
+</code></pre>
+
+<p>就能正确加载了。</p>
+
+<h2 id="总结">总结</h2>
+
+<p>不要使用 GtkBuilder template，使用 GtkBuilder。代码的界面和逻辑分离，使用 ui 文件控制界面，可以将各个部件，如 headerbar，一些 GtkBox 中的内容合理的利用 ui 文件组织起来，在 python 代码中按照需要再组装成界面。代码结构可以参考<a href="https://github.com/GNOME/gnome-music">Gnome Music 项目</a>。</p>
+
+          </div>
+        </div>
+        <div class="pagination">
+          <a class="btn previous " href="http://everyx.in/post/babun-happy-shell-windows/"> Prev</a>  
+          <a class="btn next " href="http://everyx.in/post/mathjax-link-service/"> Next</a> 
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+  
+  <p>Copyright everyx 2016. Powered by <a href='http://gohugo.io'>Hugo</a>.</p>
+  
+</div>
+
+  </div>
+  <script src="http://everyx.in/js/slim.js"></script>
+  <script src="http://everyx.in/js/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+  <script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'Your Google Analytics tracking code', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,703 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Development on 过客人生</title>
+    <link>http://everyx.in/tags/development/</link>
+    <description>Recent content in Development on 过客人生</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh_CN</language>
+    <lastBuildDate>Mon, 02 May 2016 01:28:48 +0800</lastBuildDate>
+    <atom:link href="http://everyx.in/tags/development/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Babun - 终于可以愉快的在 Windows 中敲命令啦</title>
+      <link>http://everyx.in/post/babun-happy-shell-windows/</link>
+      <pubDate>Mon, 02 May 2016 01:28:48 +0800</pubDate>
+      
+      <guid>http://everyx.in/post/babun-happy-shell-windows/</guid>
+      <description>
+
+&lt;p&gt;从大二开始接触 GNU/Linux，曾有蛮长一段时间是我笔记本的唯一系统，不过现在由于工作原因，已经不用了，但是作为一个（伪 ╮(╯-╰)╭） Linuxer 的确是为找不到一个完善的 Linux Command Tool 的解决方法发愁，不过今天终于找到一个比较称心的方案啦——那就是 &lt;a href=&#34;https://github.com/babun/babun&#34;&gt;Babun&lt;/a&gt;。&lt;/p&gt;
+
+&lt;h1 id=&#34;我的需求&#34;&gt;我的需求&lt;/h1&gt;
+
+&lt;p&gt;其实我的需求也挺简单的，能方便的进行一些小工具的开发就行了，主要用的命令也就一下几种：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Git。版本控制，基本的&lt;/li&gt;
+&lt;li&gt;Python。偶尔要写个爬虫，或者其他小工具啥的&lt;/li&gt;
+&lt;li&gt;SSH。管理服务器用&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h1 id=&#34;曾经用过的方案&#34;&gt;曾经用过的方案&lt;/h1&gt;
+
+&lt;p&gt;之前也用过很多方案，主要有以下两中：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Vagrant + VirtualBox + Python for Windows&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;虽然这样的确不用为一些兼容性烦恼了，但是这方案太重了，我就想用一个简单的工具啊，还得开虚拟机 (◎﹏◎)
+2. Git for Windows +  Cmder + Python for Windows&lt;/p&gt;
+
+&lt;p&gt;这个的确是方便了，但是，为什么我 ssh 以后文字显示总是出现错位啊，vim 有时候文字索性就不出来了，这是害羞么？还有那启动和执行速度 (╯▔皿▔)╯，对不起，我想静静 (ˉ▽ˉ；)&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;知道我在逛 V2EX 的时候看到有人推荐 Babun，半天试用以后，真是相见恨晚啊 o(&lt;em&gt;￣▽￣&lt;/em&gt;)ブ&lt;/p&gt;
+
+&lt;h1 id=&#34;babun&#34;&gt;Babun&lt;/h1&gt;
+
+&lt;p&gt;由于使用的是 Cygwin，整体使用上比专门出的 Windows 版在一些终端模拟器 (ConEmu 等) 上出现问题的概率低多了。关于 Cygwin 项目，可以看这个问题：&lt;a href=&#34;https://www.zhihu.com/question/22137175/answer/90908473&#34;&gt;Cygwin和MinGW的区别与联系是怎样的？ - LiTuX 的回答 - 知乎&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;不要问我为甚不直接用 Cygwin，因为 Babun 提供了一下大杀器：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;开箱即用。ZSH（装好了 oh-my-zsh 哦）、Python、Git 等。&lt;/li&gt;
+&lt;li&gt;包管理工具。简直良心，终于不用到处找了，又找到了熟悉的感觉 (ಥ _ ಥ)。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;好吧，其他的特性就自己去 &lt;a href=&#34;https://github.com/babun/babun&#34;&gt;Babun 的 GitHub 主页&lt;/a&gt; 看 ReadMe 吧。&lt;/p&gt;
+
+&lt;h1 id=&#34;一些问题及解决方法&#34;&gt;一些问题及解决方法&lt;/h1&gt;
+
+&lt;ol&gt;
+&lt;li&gt;使用系统工具的时候，中文会乱码。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;由于 Local 为 UTF 编码的，然后和 Windows 的默认值不一致，好吧，这个锅我来背 இ௰இ&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;ssh 需要通过代理连接的时候，提示 &lt;code&gt;command not found: connect&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;使用 &lt;code&gt;pact&lt;/code&gt; 安装包 &lt;code&gt;connect-proxy&lt;/code&gt;，并设置 alias 到 &lt;code&gt;connect&lt;/code&gt; 即可。命令如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;  pact install connect-proxy    # 安装包
+  ln -s /usr/bin/connect-proxy.exe /home/[USER_NAME]/.local/bin/connect    # alias 命令
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;如果有其他问题，我再更新……&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Python GtkBuilder Template 的坑</title>
+      <link>http://everyx.in/post/pit-of-python-gtkbuilder-template/</link>
+      <pubDate>Thu, 29 Jan 2015 23:52:09 +0800</pubDate>
+      
+      <guid>http://everyx.in/post/pit-of-python-gtkbuilder-template/</guid>
+      <description>
+
+&lt;p&gt;最近在学习 PyGTK，在学习 &lt;a href=&#34;http://zhengmingpei.github.io/GTK-3-Chinese-Reference-Manual/index.html&#34;&gt;GTK+3 参考手册(翻译版)&lt;/a&gt;，在学习&lt;a href=&#34;http://zhengmingpei.github.io/GTK-3-Chinese-Reference-Manual/content/building_app/paddingwindow.html&#34;&gt;填充窗口&lt;/a&gt;中遇到了一个 python 绑定中 GtkBuilder template resource 的坑。&lt;/p&gt;
+
+&lt;p&gt;代码文件如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;#!/usr/bin/env python3
+
+from gi.repository import Gtk, Gio
+import sys
+import os
+
+class AppWindow(Gtk.ApplicationWindow):
+    def __init__(self, app):
+        Gtk.ApplicationWindow.__init__(self, application=app)
+        self.set_default_size(400, 200)
+        # 首先从资源中加载 ui template 文件
+        self.set_template_from_resource(&#39;/in/everyx/doubanfmgtk/application.ui&#39;)
+        # 要记得初始化
+        self.init_template()
+
+class DoubanFMGtkApp(Gtk.Application):
+    def __init__(self):
+        Gtk.Application.__init__(self,
+                                 application_id=&#39;in.everyx.doubanfmgtk&#39;,
+                                 flags=Gio.ApplicationFlags.FLAGS_NONE)
+
+    def do_activate(self):
+        main_window = AppWindow(app=self)
+        main_window.show_all()
+
+if __name__ == &amp;quot;__main__&amp;quot;:
+
+    # 加在资源文件
+    resource = Gio.resource_load(os.path.abspath(os.path.join(
+        os.path.abspath(&amp;quot;__file__&amp;quot;),
+        &amp;quot;../../data/doubanfm-gtk.gresource&amp;quot;)))
+    # 注册资源文件
+    Gio.Resource._register(resource)
+
+    app = DoubanFMGtkApp()
+    exit_status = app.run(sys.argv)
+    sys.exit(exit_status)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;运行后，问题来了，一直不能出现正确的窗口，错误提示如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;(application.py:19907): Gtk-CRITICAL **: Error building template class &#39;__main__+AppWindow&#39; for an instance of type &#39;__main__+AppWindow&#39;: Parsed template definition for type `AppWindow&#39;, expected type `__main__+AppWindow&#39;.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;再看看 &lt;code&gt;ui&lt;/code&gt; 文件&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-xml&#34;&gt;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt;
+&amp;lt;interface&amp;gt;
+  &amp;lt;!-- interface-requires gtk+ 3.8 --&amp;gt;
+  &amp;lt;template class=&amp;quot;AppWindow&amp;quot; parent=&amp;quot;GtkApplicationWindow&amp;quot;&amp;gt;
+    &amp;lt;property name=&amp;quot;title&amp;quot; translatable=&amp;quot;yes&amp;quot;&amp;gt;Example Application&amp;lt;/property&amp;gt;
+    &amp;lt;property name=&amp;quot;default-width&amp;quot;&amp;gt;600&amp;lt;/property&amp;gt;
+    &amp;lt;property name=&amp;quot;default-height&amp;quot;&amp;gt;400&amp;lt;/property&amp;gt;
+    &amp;lt;child type=&amp;quot;titlebar&amp;quot;&amp;gt;
+      &amp;lt;object class=&amp;quot;GtkHeaderBar&amp;quot; id=&amp;quot;header&amp;quot;&amp;gt;
+        &amp;lt;property name=&amp;quot;visible&amp;quot;&amp;gt;True&amp;lt;/property&amp;gt;
+        &amp;lt;child type=&amp;quot;title&amp;quot;&amp;gt;
+          &amp;lt;object class=&amp;quot;GtkStackSwitcher&amp;quot; id=&amp;quot;tabs&amp;quot;&amp;gt;
+            &amp;lt;property name=&amp;quot;visible&amp;quot;&amp;gt;True&amp;lt;/property&amp;gt;
+            &amp;lt;property name=&amp;quot;margin&amp;quot;&amp;gt;6&amp;lt;/property&amp;gt;
+            &amp;lt;property name=&amp;quot;stack&amp;quot;&amp;gt;stack&amp;lt;/property&amp;gt;
+          &amp;lt;/object&amp;gt;
+        &amp;lt;/child&amp;gt;
+        &amp;lt;child&amp;gt;
+          &amp;lt;object class=&amp;quot;GtkToggleButton&amp;quot; id=&amp;quot;search&amp;quot;&amp;gt;
+            &amp;lt;property name=&amp;quot;visible&amp;quot;&amp;gt;True&amp;lt;/property&amp;gt;
+            &amp;lt;property name=&amp;quot;sensitive&amp;quot;&amp;gt;False&amp;lt;/property&amp;gt;
+            &amp;lt;style&amp;gt;
+              &amp;lt;class name=&amp;quot;image-button&amp;quot;/&amp;gt;
+            &amp;lt;/style&amp;gt;
+            &amp;lt;child&amp;gt;
+              &amp;lt;object class=&amp;quot;GtkImage&amp;quot; id=&amp;quot;search-icon&amp;quot;&amp;gt;
+                &amp;lt;property name=&amp;quot;visible&amp;quot;&amp;gt;True&amp;lt;/property&amp;gt;
+                &amp;lt;property name=&amp;quot;icon-name&amp;quot;&amp;gt;edit-find-symbolic&amp;lt;/property&amp;gt;
+                &amp;lt;property name=&amp;quot;icon-size&amp;quot;&amp;gt;1&amp;lt;/property&amp;gt;
+              &amp;lt;/object&amp;gt;
+            &amp;lt;/child&amp;gt;
+          &amp;lt;/object&amp;gt;
+          &amp;lt;packing&amp;gt;
+            &amp;lt;property name=&amp;quot;pack-type&amp;quot;&amp;gt;end&amp;lt;/property&amp;gt;
+          &amp;lt;/packing&amp;gt;
+        &amp;lt;/child&amp;gt;
+      &amp;lt;/object&amp;gt;
+    &amp;lt;/child&amp;gt;
+  &amp;lt;/template&amp;gt;
+&amp;lt;/interface&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其中第四行的 class 明明是 &lt;code&gt;AppWindow&lt;/code&gt;，但是在 使用 python 绑定的时候居然要用 &lt;code&gt;__main__+AppWindow&lt;/code&gt; 这么奇葩的类名，改过来就运行正常了。终于明白为什么看的 PyGTK 项目的代码中都没有用这种方法来创建窗口了，太反人类了。所以下面就用常见的 GtkBuilder 方法来使用 resource。&lt;/p&gt;
+
+&lt;p&gt;上面的 ui 文件中，其实就是将 titlebar 设置为 GtkHeaderBar，改造一下 ui 文件，如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-xml&#34;&gt;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt;
+&amp;lt;interface&amp;gt;
+  &amp;lt;!-- interface-requires gtk+ 3.8 --&amp;gt;
+  &amp;lt;object class=&amp;quot;GtkHeaderBar&amp;quot; id=&amp;quot;headerbar&amp;quot;&amp;gt;
+    &amp;lt;property name=&amp;quot;visible&amp;quot;&amp;gt;True&amp;lt;/property&amp;gt;
+    &amp;lt;property name=&amp;quot;show-close-button&amp;quot;&amp;gt;True&amp;lt;/property&amp;gt;
+    &amp;lt;child type=&amp;quot;title&amp;quot;&amp;gt;
+      &amp;lt;object class=&amp;quot;GtkStackSwitcher&amp;quot; id=&amp;quot;tabs&amp;quot;&amp;gt;
+        &amp;lt;property name=&amp;quot;visible&amp;quot;&amp;gt;True&amp;lt;/property&amp;gt;
+        &amp;lt;property name=&amp;quot;margin&amp;quot;&amp;gt;6&amp;lt;/property&amp;gt;
+        &amp;lt;property name=&amp;quot;stack&amp;quot;&amp;gt;stack&amp;lt;/property&amp;gt;
+      &amp;lt;/object&amp;gt;
+    &amp;lt;/child&amp;gt;
+    &amp;lt;child&amp;gt;
+      &amp;lt;object class=&amp;quot;GtkToggleButton&amp;quot; id=&amp;quot;search&amp;quot;&amp;gt;
+        &amp;lt;property name=&amp;quot;visible&amp;quot;&amp;gt;True&amp;lt;/property&amp;gt;
+        &amp;lt;property name=&amp;quot;sensitive&amp;quot;&amp;gt;False&amp;lt;/property&amp;gt;
+        &amp;lt;style&amp;gt;
+          &amp;lt;class name=&amp;quot;image-button&amp;quot;/&amp;gt;
+        &amp;lt;/style&amp;gt;
+        &amp;lt;child&amp;gt;
+          &amp;lt;object class=&amp;quot;GtkImage&amp;quot; id=&amp;quot;search-icon&amp;quot;&amp;gt;
+            &amp;lt;property name=&amp;quot;visible&amp;quot;&amp;gt;True&amp;lt;/property&amp;gt;
+            &amp;lt;property name=&amp;quot;icon-name&amp;quot;&amp;gt;edit-find-symbolic&amp;lt;/property&amp;gt;
+            &amp;lt;property name=&amp;quot;icon-size&amp;quot;&amp;gt;1&amp;lt;/property&amp;gt;
+          &amp;lt;/object&amp;gt;
+        &amp;lt;/child&amp;gt;
+      &amp;lt;/object&amp;gt;
+      &amp;lt;packing&amp;gt;
+        &amp;lt;property name=&amp;quot;pack-type&amp;quot;&amp;gt;end&amp;lt;/property&amp;gt;
+      &amp;lt;/packing&amp;gt;
+    &amp;lt;/child&amp;gt;
+  &amp;lt;/object&amp;gt;
+&amp;lt;/interface&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;修改代码&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python3&#34;&gt;class AppWindow(Gtk.ApplicationWindow):
+    def __init__(self, app):
+        Gtk.ApplicationWindow.__init__(self, application=app)
+        self.set_default_size(400, 200)
+
+        builder = Gtk.Builder()
+        builder.add_from_resource(&#39;/in/everyx/doubanfmgtk/headerbar.ui&#39;)
+        headerbar = builder.get_object(&#39;headerbar&#39;)
+
+        self.set_titlebar(headerbar)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;就能正确加载了。&lt;/p&gt;
+
+&lt;h2 id=&#34;总结&#34;&gt;总结&lt;/h2&gt;
+
+&lt;p&gt;不要使用 GtkBuilder template，使用 GtkBuilder。代码的界面和逻辑分离，使用 ui 文件控制界面，可以将各个部件，如 headerbar，一些 GtkBox 中的内容合理的利用 ui 文件组织起来，在 python 代码中按照需要再组装成界面。代码结构可以参考&lt;a href=&#34;https://github.com/GNOME/gnome-music&#34;&gt;Gnome Music 项目&lt;/a&gt;。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>擼了一个基于 MathJax 的在线数学公式图片外链服务</title>
+      <link>http://everyx.in/post/mathjax-link-service/</link>
+      <pubDate>Mon, 01 Dec 2014 21:26:30 +0800</pubDate>
+      
+      <guid>http://everyx.in/post/mathjax-link-service/</guid>
+      <description>
+
+&lt;p&gt;最近在作 SICP 的作业，用 Markdown 撰写并放在 github 上，有些题目是有数学公式的，但是
+github 暂时不支持 MathJax，那么问题就来了，如果在 github markdown 支持的情况下插入数学
+公式呢？当然是图片外链了。没找到对应的服务，于是自己擼了一个，希望帮助到那些和我有同样需要的
+人。&lt;/p&gt;
+
+&lt;h2 id=&#34;使用说明&#34;&gt;使用说明&lt;/h2&gt;
+
+&lt;p&gt;URL 规则：&lt;code&gt;http://mathjax.everyx.in/[表达式类型]/[输出形式]/[表达式]&lt;/code&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;表达式: 经过 base64 编码的表达式。&lt;/li&gt;
+&lt;li&gt;表达式类型:
+
+&lt;ul&gt;
+&lt;li&gt;am：AsciiMath 格式&lt;/li&gt;
+&lt;li&gt;mml：MathML 格式&lt;/li&gt;
+&lt;li&gt;page：HTML5 页面&lt;/li&gt;
+&lt;li&gt;tex：TeX 或者 LaTeX 格式&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;输出形式：
+
+&lt;ul&gt;
+&lt;li&gt;png：png 格式的图片&lt;/li&gt;
+&lt;li&gt;svg：svg 格式的图片&lt;/li&gt;
+&lt;li&gt;mml: MathML 格式的代码片段&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;例如，我要将一个 AnsciiMath 格式的公式 &lt;code&gt;\frac{1}{2}&lt;/code&gt; 转换成 svg &lt;code&gt;\frac{1}{2}&lt;/code&gt; 进行 base64
+编码，变成 &lt;code&gt;XGZyYWN7MX17Mn0=&lt;/code&gt;，然后就可以直接在 markdown 文件中插入&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;&amp;lt;img src=&amp;quot;http://mathjax.everyx.in/am/svg/XGZyYWN7MX17Mn0=&amp;quot;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://mathjax.everyx.in/am/svg/XGZyYWN7MX17Mn0=&#34;&gt;&lt;/p&gt;
+
+&lt;p&gt;如果不会不懂什么 base64 编码的话，那就直接访问 &lt;a href=&#34;http://mathjax.everyx.in/&#34;&gt;http://mathjax.everyx.in/&lt;/a&gt; 输入公式，选
+择对应的选项就能得到对应的 svg 的 URL 了。&lt;/p&gt;
+
+&lt;h2 id=&#34;实现&#34;&gt;实现&lt;/h2&gt;
+
+&lt;p&gt;使用 Martini 框架处理 web 请求，然后直接使用 golang 的 exec 包中的功能来调用 MathJax
+for Node 提供的转换工具，并取得结果返回。
+代码在 &lt;a href=&#34;https://github.com/everyx/mathjax.everyx.in&#34;&gt;https://github.com/everyx/mathjax.everyx.in&lt;/a&gt; ，欢迎提提交 bug。&lt;/p&gt;
+
+&lt;p&gt;原有的 Mathjax Node 使用了基于 java 的 Batik Project 中的 Rasterizer 包，我修改成了
+基于 node 的 svg2png，并修正了一个命令行工具的 bug，修改后的 Mathjax Node 见
+&lt;a href=&#34;https://github.com/everyx/MathJax-node&#34;&gt;https://github.com/everyx/MathJax-node&lt;/a&gt; 。&lt;/p&gt;
+
+&lt;h2 id=&#34;相关资源&#34;&gt;相关资源&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/go-martini/martini&#34;&gt;Martini&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/mathjax/MathJax-node&#34;&gt;Mathjax for Node &lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>用 Adobe Scripting 减轻美工负担</title>
+      <link>http://everyx.in/post/using-adobe-scripting/</link>
+      <pubDate>Tue, 25 Nov 2014 19:54:54 +0800</pubDate>
+      
+      <guid>http://everyx.in/post/using-adobe-scripting/</guid>
+      <description>
+
+&lt;p&gt;自从自学美工后，被各种配色、排版、还有软件使用等折磨着，当然其中还有很多重复性的工作，真是
+xx 啊，不过，作为一名前程序员，能自动化的绝不手工操作，就让我发现了 Adobe Scripting 这个
+好工具，今天就来讲讲这个。&lt;/p&gt;
+
+&lt;h2 id=&#34;简介&#34;&gt;简介&lt;/h2&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;The Adobe Creative Cloud provides a wide range of powerful tools for your
+programming and integration requirements. One of these tools are the scripting
+languages available across the suite, which provide a low-cost method of
+creating integrations.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;理解成自动化工具就差不多了，不仅支持 Adobe 的大量产品，还支持各种语言，包括：Apple Script，
+JavaScript， VB Script，覆盖了 Mac 和 Windows 平台。&lt;/p&gt;
+
+&lt;h2 id=&#34;需求&#34;&gt;需求&lt;/h2&gt;
+
+&lt;p&gt;就职公司是一家生产皮具产品的外贸公司，刚开始做电商，产品由摄影（在下兼职）拍摄，再由美工（也
+就是在下了）处理成各大平台和官网所需的规格。那么，问题来了，多个比例的图片，每个比例下可能有
+几种规格，例如正方形的图片要生成 800x800px、750x750px、600x600px的，再加上一些其他规格的，
+另外再加上每个平台上可能需要加上特定的水印，另外生成的文件名称可能也有规定，所以就有了如下需
+求：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;能够设置生成图片的文件名&lt;/li&gt;
+&lt;li&gt;生成的图片是经过压缩优化的，符合网站对图片质量和大小的要求&lt;/li&gt;
+&lt;li&gt;对指定规格，生成不同大小、水印的图片，并保存到指定的文件夹中&lt;/li&gt;
+&lt;li&gt;能够一键生成&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;学习&#34;&gt;学习&lt;/h2&gt;
+
+&lt;p&gt;有了上面的需求，就开始学习 Adobe Scripting 了，列举一下资源：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.adobe.com/devnet/scripting.html&#34;&gt;Adobe Scripting Center&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://wwwimages.adobe.com/content/dam/Adobe/en/devnet/photoshop/pdfs/photoshop_scriptref_js.pdf&#34;&gt;Photoshop CC JavaScript Reference (PDF)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Adobe ExtendScript Toolkit，从 &lt;a href=&#34;http://www.adobe.com/creativecloud.html&#34;&gt;Creative Suite&lt;/a&gt; 安装&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;相较于JavaScript，增加了一些内置对象，使用 ExtendScript Toolkit 提供的调式工具，尝试一
+下，很容易就能对上号了。&lt;/p&gt;
+
+&lt;h2 id=&#34;成品&#34;&gt;成品&lt;/h2&gt;
+
+&lt;p&gt;组后实现并达到了如下效果：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;使用 json 文件来进行配置&lt;/li&gt;
+&lt;li&gt;配置产品款号、名称，及使用命名方式（文件名使用前面设置的款号和名称）&lt;/li&gt;
+&lt;li&gt;各个 psd 文件对应的生成规则（尺寸，保存文件夹名称，水印等）&lt;/li&gt;
+&lt;li&gt;双击该 jsx 文件，批量打开目录下的 psd 文件并自动读取 json 配置文件生成对应图片&lt;/li&gt;
+&lt;li&gt;自动生产优化后的 jpg 图片&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;最终成品放在了 github 上，点击访问 -&amp;gt; &lt;a href=&#34;https://github.com/everyx/psbatsaver&#34;&gt;psbatsaver&lt;/a&gt;。欢迎留言交流。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Linux SSD 优化配置</title>
+      <link>http://everyx.in/post/linux-ssd-tuning/</link>
+      <pubDate>Sun, 14 Sep 2014 17:54:06 +0800</pubDate>
+      
+      <guid>http://everyx.in/post/linux-ssd-tuning/</guid>
+      <description>
+
+&lt;p&gt;最近入了一块 SSD，顺便把系统换成了 Fedora 20，这里整理以下 Linux 下 SSD 优化的一些相关知识。&lt;/p&gt;
+
+&lt;p&gt;PS：台式机换乘笔记本，网页看视频啥的，各种卡啊，低配小本伤不起，万恶的 Flash。&lt;/p&gt;
+
+&lt;h2 id=&#34;调整挂载参数&#34;&gt;调整挂载参数&lt;/h2&gt;
+
+&lt;p&gt;编辑 &lt;code&gt;/etc/fstab&lt;/code&gt;，加入如下挂载参数&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;btrfs: ssd, noatime&lt;/li&gt;
+&lt;li&gt;ext4: noatime&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;至于其他的优化参数可以参考 btrfs wiki，料多了也不好，特别是硬盘上的，还是稳妥点，不要乱加了，我这就只加了 ssd，我的加完以后是这样的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;#
+# /etc/fstab
+# Created by anaconda on Fri Sep 12 20:48:12 2014
+#
+# Accessible filesystems, by reference, are maintained under &#39;/dev/disk&#39;
+# See man pages fstab(5), findfs(8), mount(8) and/or blkid(8) for more info
+#
+UUID=772eae0d-7072-4613-83f4-7dee7473e8e4 / btrfs ssd,noatime,subvol=root 0 0
+UUID=a20bebe6-9e98-4fc9-adf4-2223301a2ddc /boot ext4 noatime,defaults 1 2
+UUID=772eae0d-7072-4613-83f4-7dee7473e8e4 /home btrfs ssd,noatime,subvol=home 0 0
+UUID=45943224-e329-49d7-bce7-5ddc73d1be25 swap swap defaults 0 0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;以上还未开启 TRIM 功能，后面会使用 crond 每周定时 TRIM，这样比加入参数 discard 更好一些，不用每次删个文件就 TRIM 一次。&lt;/p&gt;
+
+&lt;h2 id=&#34;将日志-临时文件-网页缓存等放入内存中&#34;&gt;将日志、临时文件、网页缓存等放入内存中&lt;/h2&gt;
+
+&lt;p&gt;为了延长 ssd 寿命，尽量减少对 ssd 的频繁读写，就将日志，缓存，临时文件直接放到内存中。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;注意，这一步，清先想一下是否要这么做，放到内存中重启可就没了哦。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;1-将日志和临时文件挂载到内存中&#34;&gt;1. 将日志和临时文件挂载到内存中&lt;/h3&gt;
+
+&lt;p&gt;在 &lt;code&gt;/etc/fstab&lt;/code&gt; 文件下加入以下内容&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;#SSD optimization, /var/log/ to RAM
+none /var/log/ tmpfs size=10% 0 0
+#SSD optimization, /tmp to RAM
+none /tmp/ tmpfs size=10% 0 0
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;2-强制-firefox-使用内存作为缓存&#34;&gt;2. 强制 firefox 使用内存作为缓存&lt;/h3&gt;
+
+&lt;p&gt;进入 &lt;code&gt;about:config&lt;/code&gt; (在地址栏输入回车就行了)，确认“我保证会小心”。&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;找到 &lt;code&gt;browser.cache.disk.enable&lt;/code&gt; 项，并将值设定值 &lt;code&gt;false&lt;/code&gt;。&lt;strong&gt;这样就禁用了磁盘缓存&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;确认 &lt;code&gt;browser.cache.memory.enable&lt;/code&gt; 项值为 &lt;code&gt;ture&lt;/code&gt;。&lt;strong&gt;保证内存缓存是开启的&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;添加 &lt;code&gt;browser.cache.memory.capacity&lt;/code&gt; 整数项，并设置值为 &lt;code&gt;-1&lt;/code&gt;。&lt;strong&gt;确保只缓存需要缓存的内容&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;使用-crond-开启定时-trim&#34;&gt;使用 crond 开启定时 TRIM&lt;/h2&gt;
+
+&lt;h3 id=&#34;1-新建-trim-脚本-这里文件名为-trim-sh-内容如下&#34;&gt;1. 新建 TRIM 脚本，这里文件名为 trim.sh，内容如下&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;#!/bin/sh
+# call fstrim to trim the specified device and write a log in user&#39; s home directory.
+LOG=/home/user/fstrim.log
+set -e
+echo &amp;quot;*** $(date -R) ***&amp;quot; &amp;gt;&amp;gt; $LOG
+exec /sbin/fstrim -v / &amp;gt;&amp;gt;$LOG
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;这里的 user 修改为你的用户名，当然，如果你也可以将日志放在其他地方，请自行修改。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;2-赋予可执行权限并设置为每周执行一次&#34;&gt;2. 赋予可执行权限并设置为每周执行一次&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;chmod +x trim.sh
+sudo mv trim.sh /etc/cron.weekly/
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;要确定你的 cron 服务是开启的，在使用 systemd 的系统上使用此命令确认&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;systemctl status crond.service
+
+# 如果没有开启使用以下命令开启
+# systemctl start crond.service
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;https://ask.fedoraproject.org/en/question/41664/optimization-for-an-ssd/&#34;&gt;Optimization for an SSD? - Ask Fedora&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://btrfs.wiki.kernel.org/index.php/Main_Page&#34;&gt;btrfs Wiki&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>OpenWrt 透明代理配置并解决 Chromecast 的更新问题</title>
+      <link>http://everyx.in/post/openwrt-proxy-config/</link>
+      <pubDate>Tue, 22 Jul 2014 21:47:55 +0800</pubDate>
+      
+      <guid>http://everyx.in/post/openwrt-proxy-config/</guid>
+      <description>
+
+&lt;p&gt;暑假了，弟弟来这里，顺便把我买的 MW4530R 从家里带过来了，花了两天时间重新刷了一下 OpenWrt 固件并设置了 Shadowsocks 的透明代理，顺便把 Chromecast 不能更新的问题解决了，这里将整个过程记录一下。&lt;/p&gt;
+
+&lt;h2 id=&#34;更新-openwrt-固件&#34;&gt;更新 OpenWrt 固件&lt;/h2&gt;
+
+&lt;p&gt;&lt;del&gt;以前在淘宝购买的时候就已经刷好了 OpenWrt 的固件了，固件版本比较老，会产生一系列的问题，浪费了我很多时间，所以第一步应该更新固件到 OpenWrt trunk 版本，其他版本会存在软件包过旧，造成 Shadowsocks 不能正常使用的问题。&lt;/del&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;del&gt;从 &lt;a href=&#34;http://downloads.openwrt.org/snapshots/trunk/&#34;&gt;OpenWrt trunk 源&lt;/a&gt;下载对应平台的固件，我的路由器是 MW4530R，是 ar71xx 平台的，并且直接通过 web 端升级，就下载了 &lt;a href=&#34;http://downloads.openwrt.org/snapshots/trunk/ar71xx/openwrt-ar71xx-generic-mw4530r-v1-squashfs-factory.bin&#34;&gt;openwrt-ar71xx-generic-mw4530r-v1-squashfs-factory.bin&lt;/a&gt;。&lt;/del&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;del&gt;刷机过后 telnet 修改密码，Opkg 安装 luci 等这些就不赘述了。&lt;/del&gt;&lt;/p&gt;
+
+&lt;p&gt;现在稳定版分支已经支持了，直接到 OpenWrt 官网下载稳定版就行了。由于我已经刷过 OpenWrt 了，所以选择了 &lt;a href=&#34;http://downloads.openwrt.org/barrier_breaker/14.07/ar71xx/generic/openwrt-ar71xx-generic-mw4530r-v1-squashfs-sysupgrade.bin&#34;&gt;sysupgrade&lt;/a&gt; 版本，请注意选择版本。&lt;a href=&#34;http://downloads.openwrt.org/barrier_breaker/14.07/ar71xx/generic/&#34;&gt;Barrier Breaker 固件下载地址&lt;/a&gt;。&lt;/p&gt;
+
+&lt;h2 id=&#34;安装-shadowsocks&#34;&gt;安装 Shadowsocks&lt;/h2&gt;
+
+&lt;p&gt;&lt;del&gt;到 &lt;a href=&#34;http://shadowsocks.org/&#34;&gt;Shadowsocks 官网&lt;/a&gt;下载对应平台的 ipk 软件包，我的是 &lt;a href=&#34;http://shadowsocks.org/nightly/shadowsocks-libev-polarssl_1.4.6_ar71xx.ipk&#34;&gt;1.4.6_ar71xx.ipk&lt;/a&gt;。&lt;/del&gt;现在可以直接从源中安装了&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;opkg update
+opkg install shadowsocks-client
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;会自动安装依赖软件包。如果你和我一样不幸的 &lt;code&gt;downloads.openwrt.org&lt;/code&gt; 被墙了，由于 &lt;code&gt;opkg&lt;/code&gt; 使用的是 &lt;code&gt;wget&lt;/code&gt; 来进行下载的，可以在本机用 goagent 设置好 http 代理，并在路由器上配置 &lt;code&gt;http_proxy&lt;/code&gt; 环境变量来设置全局代理，记得把 &lt;code&gt;HTTP_PROXY&lt;/code&gt; 和 &lt;code&gt;http_proxy&lt;/code&gt; 都设置好。&lt;/p&gt;
+
+&lt;p&gt;安装好了可以配置一下 Shadowsocks 配置文件，一般放在 &lt;code&gt;/etc/config/&lt;/code&gt; 下。&lt;del&gt;注意启动时会提示 libpolarssl.so.5，这里只需要创建一个软链接就行了。&lt;/del&gt;现在已经不需要这样做了。&lt;/p&gt;
+
+&lt;h2 id=&#34;安装并配置-iptable&#34;&gt;安装并配置 iptable&lt;/h2&gt;
+
+&lt;p&gt;为了实现 iptables 流量转发到端口的功能，即支持 &lt;code&gt;--to-ports&lt;/code&gt; 参数，需要安装 iptables-mod-nat-extra 包&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;opkg update
+opke install iptables-mod-nat-extra
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;使用-bestroutetb-https-github-com-ashi009-bestroutetb-配置-iptable&#34;&gt;使用 &lt;a href=&#34;https://github.com/ashi009/bestroutetb&#34;&gt;bestroutetb&lt;/a&gt; 配置 iptable&lt;/h3&gt;
+
+&lt;p&gt;按照&lt;a href=&#34;https://github.com/ashi009/bestroutetb/blob/npm/README.md&#34;&gt;项目说明&lt;/a&gt;安装。&lt;/p&gt;
+
+&lt;p&gt;那么怎么生成 iptable 的脚本呢？&lt;del&gt;请参照 AustinChou 的这篇 &lt;a href=&#34;https://austinchou.com/shadowsocks-on-openwrt/&#34;&gt;ShadowSocks on OpenWRT&lt;/a&gt; 中提供的方法。&lt;/del&gt;原链接已失效，&lt;del&gt;请直接下载&lt;a href=&#34;https://gist.github.com/AustinChou/d0a353634332c7885287&#34;&gt;这个脚本&lt;/a&gt;放到刚刚 clone 的项目根目录下，然后运行脚本就行了。&lt;/del&gt;由于 bestroutetb 变化比较大，此方法失效，我写了一个脚本，没有测试，有问题请反馈。&lt;strong&gt;记得替换 MY_SS-REDIR_SERVER_IP 为自己的 shadowsocks 所在的 ip 地址&lt;/strong&gt;&lt;/p&gt;
+
+&lt;script src=&#34;https://gist.github.com/everyx/9123cf2f4175355c90fd.js&#34;&gt;&lt;/script&gt;
+
+&lt;p&gt;生成的文件格式同 &lt;a href=&#34;https://gist.github.com/everyx/1c27825a02236d2bc144&#34;&gt;https://gist.github.com/everyx/1c27825a02236d2bc144&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;scp 传送到路由器中，我这里直接就用原名了，并放在 /usr/bin/ 中，即 /usr/bin/iptables.shadow&lt;/p&gt;
+
+&lt;h2 id=&#34;解决-dns-污染&#34;&gt;解决 dns 污染&lt;/h2&gt;
+
+&lt;p&gt;虽然设置了白名单，让白名单内的网站都不通过代理，但是由于 dns 污染的原因，有时候根本就不能得到正确的 ip 地址，所以要解决 dns 污染的问题，这里提供三种方法。&lt;/p&gt;
+
+&lt;h3 id=&#34;1-配置-pdnsd-解决-dns-污染-不推荐&#34;&gt;1. 配置 pdnsd 解决 dns 污染（不推荐）&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;opkg update
+opkg install pdnsd
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;具体配置参见&lt;a href=&#34;http://hong.im/2014/03/16/configure-an-openwrt-based-router-to-use-shadowsocks-and-redirect-foreign-traffic/#配置 pdnsd 对某些域名进行净化&#34;&gt;配置一台基于openWRT的路由器使用shadowsocks并智能穿墙的 pdnsd 的配置小节&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;启动 pdnsd 并设置开机启动&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;/etc/init.d/pdnsd enable
+/etc/init.d/pdnsd start
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;2-使用-shadowsocks-提供的-ss-tunnel-解决-dns-污染-不推荐&#34;&gt;2. 使用 shadowsocks 提供的 ss-tunnel 解决 dns 污染（不推荐）&lt;/h3&gt;
+
+&lt;p&gt;关于 ss-tunnel 的 udp 转发功能具体请见&lt;a href=&#34;http://www.v2ex.com/t/105430&#34;&gt;shadowsocks-android 的 DNS (UDP) 转发功能 - V2EX&lt;/a&gt;。你需要 1.4 以上的 libev 或 nodejs 实现的服务器端。如果和我一样是用的 libev 版本，那么启动时加上 -u 参数就行了。&lt;/p&gt;
+
+&lt;p&gt;使用一下命令来在本地 1053 端口开启转发服务。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;ss-tunnel -c /etc/config/rpvhost.json -l 1053 -L 8.8.8.8:53 -u
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样你就可以通过本地的 1053 端口实现 udp 转发了，这里将 1053 的请求都转发到 google 的 public dns。&lt;/p&gt;
+
+&lt;p&gt;然后在 dnsmasq，将特定域名的解析使用本地 1053 端口来解析。这里直接在 &lt;code&gt;/etc/dnsmasq.conf&lt;/code&gt; 后面加上&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;#Google and Youtube
+server=/.google.com/127.0.0.1#1053
+server=/.google.com.hk/127.0.0.1#1053
+server=/.gstatic.com/127.0.0.1#1053  
+server=/.ggpht.com/127.0.0.1#1053
+server=/.googleusercontent.com/127.0.0.1#1053
+server=/.appspot.com/127.0.0.1#1053
+server=/.googlecode.com/127.0.0.1#1053
+server=/.googleapis.com/127.0.0.1#1053
+server=/.gmail.com/127.0.0.1#1053
+server=/.google-analytics.com/127.0.0.1#1053
+server=/.youtube.com/127.0.0.1#1053
+server=/.googlevideo.com/127.0.0.1#1053
+server=/.youtube-nocookie.com/127.0.0.1#1053
+server=/.ytimg.com/127.0.0.1#1053
+server=/.blogspot.com/127.0.0.1#1053
+server=/.blogger.com/127.0.0.1#1053
+
+#FaceBook
+server=/.facebook.com/127.0.0.1#1053
+server=/.thefacebook.com/127.0.0.1#1053
+server=/.facebook.net/127.0.0.1#1053
+server=/.fbcdn.net/127.0.0.1#1053
+server=/.akamaihd.net/127.0.0.1#1053
+
+#Twitter
+server=/.twitter.com/127.0.0.1#1053
+server=/.t.co/127.0.0.1#1053
+server=/.bitly.com/127.0.0.1#1053
+server=/.twimg.com/127.0.0.1#1053
+server=/.tinypic.com/127.0.0.1#1053
+server=/.yfrog.com/127.0.0.1#1053  
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;3-推荐-使用-chinadns-解决-dns-污染&#34;&gt;3. 「推荐」使用 ChinaDNS 解决 dns 污染&lt;/h3&gt;
+
+&lt;p&gt;@clowwindy 的作品，无需服务器，自动优化解析效果，也是最方便的一个方法了。&lt;/p&gt;
+
+&lt;p&gt;首先来安装 &lt;a href=&#34;https://github.com/clowwindy/ChinaDNS-C&#34;&gt;ChinaDNS for OpenWrt&lt;/a&gt;。点击下载&lt;a href=&#34;https://sourceforge.net/projects/chinadns/files/dist/&#34;&gt; ChinaDNS for OpenWrt ar71xx&lt;/a&gt;。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;opkg install ChinaDNS-C_1.0.0_ar71xx.ipk  # 安装
+/etc/init.d/chinadns start                # 运行
+/etc/init.d/chinadns enable               # 开机启动
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;推荐使用 ChinaDNS 的方案来解决 dns 污染的问题，主要有以下优点：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;不用配置服务端。&lt;/li&gt;
+&lt;li&gt;无需多余配置，运行即可使用。&lt;/li&gt;
+&lt;li&gt;自动优化国内国外解析。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&#34;运行-iptable-设置脚本并启动-ss-redir&#34;&gt;运行 iptable 设置脚本并启动 ss-redir&lt;/h2&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;/usr/bin/iptables.shadow  # 设置路由：
+/usr/bin/ss-redir -c /etc/config/shadowsocks.json &amp;amp;   # 启动 shadowsocks
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;解决-chromecast-不能更新的问题&#34;&gt;解决 Chromecast 不能更新的问题&lt;/h2&gt;
+
+&lt;p&gt;由于 Chromecast 固执的只用自家的 dns 服务，也就是 8.8.8.8 和 8.8.4.4，在国内基本上解析不到真正的 ip 了，所以这里要将所有 8.8.8.8 和 8.8.4.4 的 53 端口 的 udp 查询转到其他 dns。这里提供两种方法。&lt;/p&gt;
+
+&lt;h3 id=&#34;1-使用-unodns-http-www-unotelly-com-unodns-不推荐&#34;&gt;1. 使用 &lt;a href=&#34;http://www.unotelly.com/unodns/&#34;&gt;UnoDNS&lt;/a&gt;（不推荐）&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://quickstart3.unotelly.com/global-servers&#34;&gt;获取离你最近的服务器&lt;/a&gt;，我这里是 176.34.53.14，然后登陆 openwrt 设置 iptable&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;iptables -I PREROUTING -t nat -p udp -d 8.8.4.4 --dport 53 -j DNAT --to-destination 176.34.53.14
+iptables -I PREROUTING -t nat -p udp -d 8.8.8.8 --dport 53 -j DNAT --to-destination 176.34.53.14
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;使用这个能够观看一些存在地区限制的视频。&lt;/p&gt;
+
+&lt;h3 id=&#34;2-使用本地的-dns-服务-推荐&#34;&gt;2. 使用本地的 dns 服务（推荐）&lt;/h3&gt;
+
+&lt;p&gt;由于前面已经解决了 dns 污染，所以我们可以用本地的 dns 服务就行了。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;# 转发到本地 53 端口
+iptables -I PREROUTING -t nat -p udp -d 8.8.4.4 --dport 53 -j REDIRECT --to-ports 53
+iptables -I PREROUTING -t nat -p udp -d 8.8.8.8 --dport 53 -j REDIRECT --to-ports 53
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后打开 Chromecast 就可以更新了，终于可以用 Cast Screen 了，哈哈。&lt;/p&gt;
+
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;http://hong.im/2014/03/16/configure-an-openwrt-based-router-to-use-shadowsocks-and-redirect-foreign-traffic/&#34;&gt;配置一台基于openWRT的路由器使用shadowsocks并智能穿墙&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://austinchou.com/shadowsocks-on-openwrt/&#34;&gt;ShadowSocks on OpenWRT&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://help.unotelly.com/support/articles/136538-&#34;&gt;DD-WRT : UnoTelly Customer Service&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>翻译了 Go by Example</title>
+      <link>http://everyx.in/post/translate-gobyexample-chinese/</link>
+      <pubDate>Thu, 03 Jul 2014 23:22:33 +0800</pubDate>
+      
+      <guid>http://everyx.in/post/translate-gobyexample-chinese/</guid>
+      <description>
+
+&lt;p&gt;最近翻译了  Go by Example，期间也有很多感触，再此记录一下。&lt;/p&gt;
+
+&lt;p&gt;自从不当程序员以后，为了努力不让自己的变成水平下降，一直坚持新技术的学习，当然其中比较感兴趣的就是 golang，虽然也觉得它的语法有时候有些别扭，比如数组以及函数参数的语法，的确不太适应类型写在变量的后面的方式，以及 &lt;code&gt;[]&lt;/code&gt; 写在类型前面的方式。&lt;/p&gt;
+
+&lt;h2 id=&#34;起因&#34;&gt;起因&lt;/h2&gt;
+
+&lt;p&gt;在 v2ex.com 上看到一篇关于 github 马拉松的帖子，被楼主的精神打动，我觉得也许我也可以这样尝试一下，所以就选了这样一个比较能让我坚持下去的任务 - 翻译 Go by Example.&lt;/p&gt;
+
+&lt;p&gt;大部分都是使用晚上和周末的时间，不过晚上回来做个饭，洗个澡已经比较晚了，前前后后也花了近一个月的时间才完成。&lt;/p&gt;
+
+&lt;h2 id=&#34;谈谈感想&#34;&gt;谈谈感想&lt;/h2&gt;
+
+&lt;h3 id=&#34;1-积极的向上有提供反馈&#34;&gt;1. 积极的向上有提供反馈&lt;/h3&gt;
+
+&lt;p&gt;在翻译该项目的过程中，期间也碰到了一些 bug，例如生成程序对 cjk 字符的不兼容，最后提交了一个 pull request 修复了这个问题。问题及时反馈到上游，在与作者的沟通能够增加你的动力。&lt;/p&gt;
+
+&lt;h3 id=&#34;2-主动提交自己的翻译版本&#34;&gt;2. 主动提交自己的翻译版本&lt;/h3&gt;
+
+&lt;p&gt;翻译完成后，其实也也挺激动的，这也是第一个我没有烂尾的 github 项目。正好作者主页上没有提供中文版的翻译，所以我主动提交了一个issue，作者也接受了我的意见，并在 README 中给出了我的翻译的链接。&lt;/p&gt;
+
+&lt;h3 id=&#34;3-翻译尽量保持和原版一直的表现形式&#34;&gt;3. 翻译尽量保持和原版一直的表现形式&lt;/h3&gt;
+
+&lt;p&gt;在翻译前，我一直在找 Go by Example 的中文翻译，但是找到的都是直接以 markdown 文件的形式存在的项目，而且都不全，这也是促使我进行这项翻译工作的原因，当时的目标如下：&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;使用 github 来托管网站&lt;/li&gt;
+&lt;li&gt;完全使用上有项目的构方式（仅托管方式不一样）&lt;/li&gt;
+&lt;li&gt;尽量不要破坏原有的文件结构&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;为了满足这些要求，对原来的生成代码进行了小调整。这样让翻译后的网站的表现形式一致。&lt;/p&gt;
+
+&lt;p&gt;以上，好像罗嗦了点，作为新博客建好的第一篇博文，就这样吧。最后感叹一下，我都不当程序员了，还他妈折腾这些，看来是没救了 〒▽〒&lt;/p&gt;
+
+&lt;p&gt;附上项目地址 &lt;a href=&#34;https://github.com/everyx/gobyexample&#34;&gt;Go By Example 中文翻译&lt;/a&gt;。&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
